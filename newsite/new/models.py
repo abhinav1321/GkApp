@@ -29,3 +29,36 @@ class Subject(models.Model):
 
     class Meta:
         verbose_name_plural = "Subject"
+
+
+class Topic(models.Model):
+    topic_id = models.CharField(max_length=10)
+    subject_id = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    topicname = models.CharField(max_length=100)
+    content = models.FileField(null=True)
+
+    def __str__(self):
+        return self.topicname
+
+    class Meta:
+        verbose_name_plural = "Topic"
+
+
+class Questions(models.Model):
+    subject_id = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
+
+    q_id = models.IntegerField()
+    q_text = models.CharField(max_length=300)
+    a = models.CharField(max_length=300)
+    b = models.CharField(max_length=300)
+    c = models.CharField(max_length=300)
+    d = models.CharField(max_length=300)
+    answer = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.q_text
+
+    class Meta:
+        verbose_name_plural = "Question"
+

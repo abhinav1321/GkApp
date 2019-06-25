@@ -1,3 +1,4 @@
+
 <style type="text/css">
 .card{
 	margin-right: 20px;
@@ -41,8 +42,13 @@ body{
 </style>
 
 
+
 {% extends 'new/base.html' %}
+
 {% block content %}
+
+
+
 
 
 <div class="container" style="margin-top: 50px;">
@@ -56,15 +62,15 @@ body{
 
 
          {% for e in exam %}
-     <form action="{% url 'exam' %}" id="form" method="post">
-         {% csrf_token %}
+<form method="POST" action = "/new/exam">
       <div class="card"  style="width: 18rem;">
 
-  <img class="card-img-top" src="..." alt="Card image cap">
+  <img class="card-img-top" src="" alt="Card image cap">
   <div class="card-body">
     <input type="hidden" value="{{e}}" name="exam_name" >
       <h5 class="card-title"> {{e}}</h5>
-      <input type="submit" value="Select">
+      <input type="submit" value="Select" class="submit_exam">
+      {% csrf_token %}
     <p class="card-text"></p>
   </div>
 
@@ -72,6 +78,7 @@ body{
 </form>
 
         {% endfor %}
+
     </div>
     </div>
 
@@ -108,7 +115,7 @@ body{
 
  <div class="card " id="subject" style="width: 18rem;">
 
-  <img class="card-img-top" src="..." alt="Card image cap">
+  <img class="card-img-top" src="" alt="Card image cap">
   <div class="card-body">
     <input type="hidden" value="{{s}}" name="Subject_name" >
       <h5 class="card-title"> {{s}}</h5>
@@ -127,3 +134,5 @@ body{
 
 
 {% endblock %}
+
+
