@@ -17,6 +17,9 @@ class Exams(models.Model):
     exam_name= models.CharField(max_length=30)
     body = RichTextField(blank=True, null=True)
 
+    def __str__(self):
+        return self.exam_name
+
 
 
 class Subject(models.Model):
@@ -54,6 +57,8 @@ class Questions(models.Model):
     b = models.CharField(max_length=300)
     c = models.CharField(max_length=300)
     d = models.CharField(max_length=300)
+    e = models.CharField(max_length=300,null=True)
+    q_rich = RichTextField(blank=True, null=True)
     answer = models.CharField(max_length=300)
 
     def __str__(self):

@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Notifications,Exams,Subject
+from .models import Notifications,Exams,Subject,Topic
+import codecs
+import csv
+import json
 
 
-from .utils import insert_record, id_generator
+from .utils import insert_record, id_generator,set_maker
 
 # Create your views here.
 def index(request):
@@ -25,16 +28,18 @@ def index(request):
 
 
 def exam(request):
-
+    notification = Notifications.objects.all()
+    new_list = []
+    for i in notification:
+        new_list.append(i.notification)
     exam=request.POST.get('exam_name')
-    print(exam)
-    print("this one")
+
     examobj = Exams.objects.get(**{"exam_name": exam})
     print("nextsection")
     body = examobj.body
 
     print(body)
-    return render(request, 'new/exam.html',{'body': body})
+    return render(request, 'new/exam.html',{'body': body,'notification':new_list})
 
 
 def add(request):
@@ -60,7 +65,39 @@ def add_topic(request):
 
 
 def add_ques(request):
-    return HttpResponse("fuck")
+    file = request.FILES['fileup']
+    rows = []
+    if file.name.endswith(".csv"):
+        data = csv.reader(codecs.iterdecode(file, 'utf-8'))
+        row_count = -1
+        for row in data:
+            if row_count == -1:
+                row_count = 0
+                continue
+            subject_id = Subject.objects.get(**{"subject_id": row[8]})
+            topic_id = Topic.objects.get(**{"topic_id": row[9]})
+            to_insert = {
+                "q_id": row[0],
+                "q_text": row[1],
+                "a": row[2],
+                "b": row[3],
+                "c": row[4],
+                "d": row[5],
+                "e": row[6],
+                "answer": row[7],
+                "subject_id": subject_id,
+                "topic_id": topic_id
+            }
+
+            print(to_insert)
+
+            if insert_record(data=to_insert, o="question"):
+                row_count = row_count + 1
+
+        #        if rows[0] == ['q_id', 'q_text', 'a', 'b', 'c', 'd', 'answer']:
+        #            print('yes')
+
+        return HttpResponse("done")
 
 
 def add_sub(request):
@@ -76,3 +113,18 @@ def add_sub(request):
     insert_record(data, o="sub")
     print('jj')
     return render(request, 'new/add.html', {'subject': subject, 'new_subject':new_subject})
+
+
+def one_view(request):
+
+    question= set_maker()
+    return render (request, 'new/one_view.html' , {'question':question})
+
+
+def count(request):
+    reply = request.POST.copy()
+
+    print(reply)
+
+
+    return HttpResponse("reached here")

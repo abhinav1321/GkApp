@@ -1,0 +1,22 @@
+
+
+<h2>Answer these</h2>
+
+<form action = '/new/count' method="POST">
+{% csrf_token %}
+{% for q in question %}
+
+<div>
+<h3>{{q.q_text}}</h3>
+    <p> <input type="radio" name="{{q.q_id}}" value="a">a.  {{q.a}}</input> </p>
+    <p> <input type="radio" name="{{q.q_id}}" value ="b">b.  {{q.b}}</input> </p>
+    <p> <input type="radio"  name="{{q.q_id}}"  value = "c">c.  {{q.c}}</input> </p>
+    <p>  <input type="radio" name="{{q.q_id}}" value = "d">d.  {{q.d}}</input> </p>
+
+
+
+</div>
+
+{% endfor %}
+    <input type="submit" value = "submit">
+    </form>

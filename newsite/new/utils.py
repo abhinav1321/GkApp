@@ -1,6 +1,8 @@
 from random import choice
 from .models import Subject, Topic, Questions
 from string import ascii_uppercase, digits
+import random
+
 
 MODEL_OBJ = {
     "sub": Subject,
@@ -30,3 +32,26 @@ def insert_record(data, o):
         print(str(e))
         return None
     return c
+
+
+
+def set_maker():
+    topic = Topic.objects.all().filter(**{'topic_id': 'TOPCYZ93HK'})
+    print(topic)
+    for i in topic:
+        question = Questions.objects.filter(**{'topic_id':i})
+
+
+    q= random.choices(question,k=10)
+    return q
+
+
+
+
+
+
+
+
+
+
+

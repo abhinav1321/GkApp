@@ -60,16 +60,15 @@ body{
     <div class="row" style="margin-bottom:50px; ">
 
 
-
          {% for e in exam %}
-<form method="POST" action = "/new/exam">
-      <div class="card"  style="width: 18rem;">
+<form method="POST" id="{{e}}" action = "/new/exam">
+      <div class="card "  style="width: 18rem;"  >
 
   <img class="card-img-top" src="" alt="Card image cap">
-  <div class="card-body">
+  <div class="card-body" href="#submit_exam">
     <input type="hidden" value="{{e}}" name="exam_name" >
       <h5 class="card-title"> {{e}}</h5>
-      <input type="submit" value="Select" class="submit_exam">
+      <input type="submit" value="Select" class="submit_exam"  >
       {% csrf_token %}
     <p class="card-text"></p>
   </div>
