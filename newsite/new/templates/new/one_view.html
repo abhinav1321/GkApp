@@ -1,13 +1,31 @@
 
+{% extends 'new/base.html' %}
 
-<h2>Answer these</h2>
+
+
+{% block content %}
+
+<style>
+
+  .ques{
+    margin-left: 50px;
+    margin-top: 50px;
+    font-size: 85%;
+    color: maroon;
+}
+</style>
+
+
+<div class="ques">
+
+<h2 style="text-align:center">Answer these</h2>
 
 <form action = '/new/count' method="POST">
 {% csrf_token %}
 {% for q in question %}
 
 <div>
-<h3>{{q.q_text}}</h3>
+<h5>{{q.q_text}}</h5>
     <p> <input type="radio" name="{{q.q_id}}" value="a">a.  {{q.a}}</input> </p>
     <p> <input type="radio" name="{{q.q_id}}" value ="b">b.  {{q.b}}</input> </p>
     <p> <input type="radio"  name="{{q.q_id}}"  value = "c">c.  {{q.c}}</input> </p>
@@ -20,3 +38,7 @@
 {% endfor %}
     <input type="submit" value = "submit">
     </form>
+
+
+</div>
+{% endblock %}

@@ -12,4 +12,5 @@ urlpatterns = [
     path('add_sub',views.add_sub,name='add_sub'),
     path('one_view',views.one_view,name='one_view'),
     path('count',views.count,name='count'),
+
 ]

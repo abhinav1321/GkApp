@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Notifications,Exams,Subject,Topic
+from .models import Notifications,Exams,Subject,Topic, Questions
 import codecs
 import csv
 import json
@@ -120,11 +120,36 @@ def one_view(request):
     question= set_maker()
     return render (request, 'new/one_view.html' , {'question':question})
 
+def calculator(answer_list=None):
+    count =  0
+
+    for question in answer_list:
+        print(type(question))
+        obj = Questions.objects.filter(**{"q_id": question[0]})
+        print(question[0])
+        print(obj[0].q_id)
+        print(obj[0].answer)
+        print(obj)
+        if question[1] == obj[0].answer:
+            count += 1
+
+    return count
 
 def count(request):
     reply = request.POST.copy()
-
     print(reply)
+    x=reply.items()
+    li =[]
+    for element in x:
+       li.append(element)
 
+    result = calculator(answer_list=li[1:])
 
-    return HttpResponse("reached here")
+    if result <=5:
+        review = "Improvement required"
+    elif (result <=7):
+        review = "GOOD Keep Going!"
+    else:
+        review = "WAaH bde log!"
+
+    return render (request, 'new/result.html', {'review':review,'result':result})
