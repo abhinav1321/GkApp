@@ -118,18 +118,26 @@ def add_sub(request):
 def one_view(request):
 
     question= set_maker()
-    return render (request, 'new/one_view.html' , {'question':question})
+    print("length")
+    print(len(question))
+    q=[]
+    for ques in question:
+        i=0
+
+        q.append( {
+            "q_id": ques.q_id,
+        }
+        )
+
+        i=i+1
+
+    return render (request, 'new/one_view.html' , {'question':question,'q_id':q})
 
 def calculator(answer_list=None):
     count =  0
 
     for question in answer_list:
-        print(type(question))
         obj = Questions.objects.filter(**{"q_id": question[0]})
-        print(question[0])
-        print(obj[0].q_id)
-        print(obj[0].answer)
-        print(obj)
         if question[1] == obj[0].answer:
             count += 1
 
@@ -137,13 +145,35 @@ def calculator(answer_list=None):
 
 def count(request):
     reply = request.POST.copy()
-    print(reply)
+
     x=reply.items()
     li =[]
     for element in x:
        li.append(element)
 
-    result = calculator(answer_list=li[1:])
+    result = calculator(answer_list=li[1:-1])
+    ques_asked = li[-1]
+    print(type(ques_asked))
+    print(ques_asked)
+
+    question_list = []
+    for q in ques_asked[1].replace("[", "").replace("]", "").split(", "):
+        question_list.append(eval(q))
+
+    for a in question_list:
+        print(a["q_id"])
+    y=[]
+    for i in ques_asked[1]:
+        x=['0','1','2','3','4','5','6','7','8','9']
+        if i in x:
+          y.append(i)
+    print(y)
+    print("^y")
+
+
+
+
+
 
     if result <=5:
         review = "Improvement required"
@@ -153,3 +183,4 @@ def count(request):
         review = "WAaH bde log!"
 
     return render (request, 'new/result.html', {'review':review,'result':result})
+

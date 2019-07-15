@@ -5,17 +5,22 @@
 
 {% block content %}
 
+
 <style>
 
   .ques{
-    margin-left: 50px;
-    margin-top: 20px;
+    margin-left: 90px;
+
     font-size: 85%;
     color: maroon;
-    padding:100px;
+    padding-top:50px;
+}
+body{
+    padding-bottom:200px;
+
 }
 </style>
-
+<body >
 
 <div class="ques" >
 
@@ -37,9 +42,12 @@
 </div>
 
 {% endfor %}
+    <input type="hidden" name="question" value="{{q_id}}">
     <input type="submit" value = "submit">
     </form>
 
 
 </div>
+
+</body>
 {% endblock %}
