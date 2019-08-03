@@ -156,7 +156,14 @@
       <option name="project" value="LOCAL" />
       <updated>1564861862943</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Some changes in Frontend, logo added,&#10;1 problem remians, background color">
+      <created>1564862375127</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1564862375127</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView">

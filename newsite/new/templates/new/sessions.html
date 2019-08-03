@@ -13,7 +13,7 @@
             {{ form.as_p }}
             <button type="submit" value="Submit" class="btn btn-info">LogIn</button>
         </form>
-p
+
     {% else %}
         <h3>Welcome you are signed in as {{ username }}</h3>
 <a href="{% url 'sessions' %}?action=logout">Log Out</a>
