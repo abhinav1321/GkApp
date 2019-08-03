@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e79f5e13-835d-44ae-890a-d79bfd334941" name="Default Changelist" comment="Some changes in Frontend, logo added,&#10;1 problem remians, background color" />
+    <list default="true" id="e79f5e13-835d-44ae-890a-d79bfd334941" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +135,28 @@
       <option name="project" value="LOCAL" />
       <updated>1564861653484</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Some changes in Frontend, logo added,&#10;1 problem remians, background color">
+      <created>1564861755946</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1564861755946</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Some changes in Frontend, logo added,&#10;1 problem remians, background color">
+      <created>1564861852047</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1564861852047</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Some changes in Frontend, logo added,&#10;1 problem remians, background color">
+      <created>1564861862943</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1564861862943</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
