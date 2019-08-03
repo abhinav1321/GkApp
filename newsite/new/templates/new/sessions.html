@@ -1,0 +1,31 @@
+
+
+
+{% extends 'new/base.html' %}
+{% block content %}
+<p></p>
+<p></p>
+<p></p>
+
+    {% if username is None %}
+        <form role="form" method="post" action="/new/sessions">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" value="Submit" class="btn btn-info">LogIn</button>
+        </form>
+p
+    {% else %}
+        <h3>Welcome you are signed in as {{ username }}</h3>
+<a href="{% url 'sessions' %}?action=logout">Log Out</a>
+
+    {% endif %}
+
+{% if time is not None %}
+    <p> Session will expire on {{time}}</p>
+
+{% endif %}
+
+
+
+{% endblock %}
+
