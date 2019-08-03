@@ -2,162 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e79f5e13-835d-44ae-890a-d79bfd334941" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/English (Bank).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/English (ssc).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/IBPS PO.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/Maths.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/Quantative Aptitude.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/Reasoning Aptitude.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/SBI CLERK.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/SBI PO.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/SSC CGL.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/TypeError at _new_count.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/exam.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/history.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/hppsc.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/polity.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/rbi.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/ssc.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/ssc1.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/new/static/new/images/upsc.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/one_view.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/one_view.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/result.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/result.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/newsite/new/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/newsite/newsite/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/newsite/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/newsite/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/newsite/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/newsite/new/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="65">
-              <caret line="171" lean-forward="true" selection-start-line="171" selection-end-line="172" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/result.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
-              <folding>
-                <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/one_view.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="46" column="11" lean-forward="true" selection-start-line="46" selection-start-column="11" selection-end-line="46" selection-end-column="11" />
-              <folding>
-                <element signature="n#style#0;n#h2#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/newsite/new/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="802">
-              <caret line="61" column="10" selection-start-line="61" selection-start-column="10" selection-end-line="61" selection-end-column="10" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/test.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="65" column="28" selection-start-line="65" selection-start-column="28" selection-end-line="65" selection-end-column="28" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h3#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h2#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/base.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="83" selection-start-line="83" selection-end-line="83" />
-              <folding>
-                <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#footer#0;n#body#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/newsite/newsite/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="744">
-              <caret line="124" column="21" selection-start-line="124" selection-start-column="21" selection-end-line="124" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/newsite/newsite/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-              <folding>
-                <element signature="e#631#663#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/newsite/new/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="14" selection-start-line="14" selection-end-line="14" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -175,109 +33,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/newsite/new/templates/new/check.html" />
-        <option value="$PROJECT_DIR$/newsite/new/templates/new/test.html" />
-        <option value="$PROJECT_DIR$/newsite/new/admin.py" />
-        <option value="$PROJECT_DIR$/newsite/new/templates/new/add.html" />
-        <option value="$PROJECT_DIR$/newsite/new/templates/new/exam.html" />
-        <option value="$PROJECT_DIR$/newsite/new/models.py" />
-        <option value="$PROJECT_DIR$/newsite/new/utils.py" />
-        <option value="$PROJECT_DIR$/newsite/new/urls.py" />
-        <option value="$PROJECT_DIR$/newsite/new/templates/new/base.html" />
-        <option value="$PROJECT_DIR$/newsite/new/templates/new/one_view.html" />
-        <option value="$PROJECT_DIR$/newsite/new/templates/new/result.html" />
-        <option value="$PROJECT_DIR$/newsite/new/views.py" />
-        <option value="$PROJECT_DIR$/newsite/newsite/settings.py" />
-        <option value="$PROJECT_DIR$/newsite/newsite/urls.py" />
-        <option value="$PROJECT_DIR$/newsite/new/templates/new/index.html" />
-      </list>
-    </option>
-  </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="716" />
-    <option name="y" value="25" />
+    <option name="y" value="88" />
     <option name="width" value="650" />
-    <option name="height" value="743" />
+    <option name="height" value="555" />
   </component>
+  <component name="ProjectId" id="1OToDUGWxdQeK0sbMu6M8De7ot6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="more" type="b2602c69:ProjectViewProjectNode" />
-              <item name="more" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="more" type="b2602c69:ProjectViewProjectNode" />
-              <item name="more" type="462c0819:PsiDirectoryNode" />
-              <item name="newsite" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="more" type="b2602c69:ProjectViewProjectNode" />
-              <item name="more" type="462c0819:PsiDirectoryNode" />
-              <item name="newsite" type="462c0819:PsiDirectoryNode" />
-              <item name="new" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="more" type="b2602c69:ProjectViewProjectNode" />
-              <item name="more" type="462c0819:PsiDirectoryNode" />
-              <item name="newsite" type="462c0819:PsiDirectoryNode" />
-              <item name="new" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="more" type="b2602c69:ProjectViewProjectNode" />
-              <item name="more" type="462c0819:PsiDirectoryNode" />
-              <item name="newsite" type="462c0819:PsiDirectoryNode" />
-              <item name="new" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="new" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="more" type="b2602c69:ProjectViewProjectNode" />
-              <item name="more" type="462c0819:PsiDirectoryNode" />
-              <item name="newsite" type="462c0819:PsiDirectoryNode" />
-              <item name="new" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="new" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="more" type="b2602c69:ProjectViewProjectNode" />
-              <item name="more" type="462c0819:PsiDirectoryNode" />
-              <item name="newsite" type="462c0819:PsiDirectoryNode" />
-              <item name="new" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="more" type="b2602c69:ProjectViewProjectNode" />
-              <item name="more" type="462c0819:PsiDirectoryNode" />
-              <item name="newsite" type="462c0819:PsiDirectoryNode" />
-              <item name="new" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="new" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="more" type="b2602c69:ProjectViewProjectNode" />
-              <item name="more" type="462c0819:PsiDirectoryNode" />
-              <item name="newsite" type="462c0819:PsiDirectoryNode" />
-              <item name="newsite" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
-  </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -299,6 +62,34 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="views" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="more" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/newsite/new" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/newsite/new/views.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.views" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -339,7 +130,14 @@
       <option name="project" value="LOCAL" />
       <updated>1562999181170</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Some changes in Frontend, logo added,&#10;1 problem remians, background color">
+      <created>1563223334698</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1563223334698</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -350,48 +148,6 @@
       <are-packages-shown value="true" />
       <is-autoscroll-to-source value="true" />
     </todo-panel>
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="67" y="25" width="1299" height="743" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1684953" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32954547" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32899022" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4992163" weight="0.32899022" />
-      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.35667753" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007837" side_tool="true" weight="0.32899022" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
-    <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1661442" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32954547" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32899022" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4992163" weight="0.32899022" />
-      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.29641694" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007837" side_tool="true" weight="0.32899022" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout-to-restore>
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ORDER">
@@ -409,20 +165,7 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
-              <option name="COLUMN_ORDER">
-                <list>
-                  <option value="0" />
-                  <option value="1" />
-                  <option value="2" />
-                  <option value="3" />
-                </list>
-              </option>
+              <option name="COLUMN_ORDER" />
             </State>
           </value>
         </entry>
@@ -445,177 +188,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="with question set_maker in utils" />
-    <option name="LAST_COMMIT_MESSAGE" value="with question set_maker in utils" />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/newsite/new/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/in.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1830">
-          <caret line="122" selection-start-line="122" selection-end-line="122" />
-          <folding>
-            <element signature="e#2033#2040#1" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/apps.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/add.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="68" column="10" selection-start-line="68" selection-start-column="10" selection-end-line="68" selection-end-column="10" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h1#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/resources/html5-schema/html5/web-forms.rnc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="206" column="22" selection-start-line="206" selection-start-column="22" selection-end-line="206" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/exam.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/result.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-          <folding>
-            <element signature="n#style#0;n#h1#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65">
-          <caret line="171" lean-forward="true" selection-start-line="171" selection-end-line="172" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/newsite/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="744">
-          <caret line="124" column="21" selection-start-line="124" selection-start-column="21" selection-end-line="124" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/newsite/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-          <folding>
-            <element signature="e#631#663#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="802">
-          <caret line="61" column="10" selection-start-line="61" selection-start-column="10" selection-end-line="61" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/one_view.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="46" column="11" lean-forward="true" selection-start-line="46" selection-start-column="11" selection-end-line="46" selection-end-column="11" />
-          <folding>
-            <element signature="n#style#0;n#h2#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="83" selection-start-line="83" selection-end-line="83" />
-          <folding>
-            <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#footer#0;n#body#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/newsite/new/templates/new/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="65" column="28" selection-start-line="65" selection-start-column="28" selection-end-line="65" selection-end-column="28" />
-          <folding>
-            <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h2#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <MESSAGE value="Some changes in Frontend, logo added,&#10;1 problem remians, background color" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some changes in Frontend, logo added,&#10;1 problem remians, background color" />
   </component>
 </project>

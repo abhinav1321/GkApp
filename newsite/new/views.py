@@ -1,10 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import Notifications,Exams,Subject,Topic, Questions
 import codecs
 import csv
 import json
-
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate,login
+import plotly.graph_objects as go
+from django import forms
 
 from .utils import insert_record, id_generator,set_maker
 
@@ -61,7 +65,7 @@ def add_topic(request):
         "topicname": topic_name,
     }
     c = insert_record(data, o="topic")
-    return HttpResponse("fuck")
+    return HttpResponse("done")
 
 
 def add_ques(request):
@@ -160,21 +164,11 @@ def count(request):
     for q in ques_asked[1].replace("[", "").replace("]", "").split(", "):
         question_list.append(eval(q))
 
+    y = []
     for a in question_list:
-        print(a["q_id"])
-    y=[]
-    for i in ques_asked[1]:
-        x=['0','1','2','3','4','5','6','7','8','9']
-        if i in x:
-          y.append(i)
+        y.append(a["q_id"])
+    print("y is")
     print(y)
-    print("^y")
-
-
-
-
-
-
     if result <=5:
         review = "Improvement required"
     elif (result <=7):
@@ -182,5 +176,104 @@ def count(request):
     else:
         review = "WAaH bde log!"
 
-    return render (request, 'new/result.html', {'review':review,'result':result})
+    return render (request, 'new/result.html', {'review':review,'result':result,'id':y})
+
+
+def export_csv(request):
+
+    id=request.POST.get('id')
+    li = list(id.replace("[","").replace("]","").split(", "))
+    question=[]
+    for i in li:
+        q = Questions.objects.all().filter(**{'q_id':i})
+        question.append(q[0])
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content_Disposition'] = 'attachment; filename="answer.csv"'
+    writer = csv.writer(response)
+    writer.writerow(["q_id", "q_text", "a", "b", "c", "d", "answer"])
+
+    for item in question:
+        writer.writerow([item.q_id,item.q_text,item.a,item.b,item.c,item.d,item.answer])
+
+
+    return response
+
+
+def plot(request):
+    fig = go.Figure(data=go.Bar(y=[2, 3, 1]))
+    fig.write_html('first_figure.html')
+    return render(request,'new/first_figure.html')
+
+
+
+class FormLogin(forms.Form):
+    username = forms.CharField(label=("Username"), required=True)
+    password = forms.CharField(label=("Password"), widget=forms.PasswordInput, required=True)
+
+
+def session_demo(request):
+    time = None
+    username = None  # default value
+    form_login = FormLogin()
+    print("check1")
+    if request.method == 'GET':
+
+        if 'action' in request.GET:
+            action = request.GET.get('action')
+            if action == 'logout':
+                print('checkhere')
+                if request.session.has_key('username'):
+                    request.session.flush()
+                return redirect('sessions')
+        print('check2')
+        if 'username' in request.session:
+            username = request.session['username']
+            print("time")
+            print(request.session.get_expiry_age())  # session lifetime in seconds(from now)
+            print(
+                request.session.get_expiry_date())  # datetime.datetime object which represents the moment in time at which the session will expire
+            print('check3')
+
+
+
+    elif request.method == 'POST':
+        form_login = FormLogin(request.POST)
+        if form_login.is_valid():
+            print('check4')
+            username = form_login.cleaned_data['username']
+            password = form_login.cleaned_data['password']
+            if username.strip() == 'youtuber' and password.strip() == 'secret':
+                request.session.set_expiry(300)
+                request.session['username'] = username
+                time = request.session.get_expiry_date()
+            else:
+                username = None
+                time=None
+
+    return render(request, 'new/sessions.html', {
+        'demo_title': 'Sessions in Django',
+        'form': form_login,
+        'username': username,
+        'time':time
+    })
+
+def signIn(request):
+    time=None
+    username=None
+    if request.method== 'GET':
+        if 'action' in request.GET:
+            if 'action' == 'logout':
+                if request.session.has_key['username']:
+                    request.session.flush()
+                    return redirect('')
+
+    elif request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            request.session.set_expiry(900)
+            request.session['username']=username
+            return render(request, 'new/base.html', {'username':username})
 

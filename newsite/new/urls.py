@@ -12,5 +12,8 @@ urlpatterns = [
     path('add_sub',views.add_sub,name='add_sub'),
     path('one_view',views.one_view,name='one_view'),
     path('count',views.count,name='count'),
-
+    path('export_csv',views.export_csv,name='export_csv'),
+    path('plot',views.plot,name='plot'),
+    path('sessions',views.session_demo,name='sessions'),
+    path('signIn',views.signIn,name='signin'),
 ]
