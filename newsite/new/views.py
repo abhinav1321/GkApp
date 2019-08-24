@@ -7,6 +7,7 @@ import json
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
+import django.contrib.auth.models as mod
 import plotly.graph_objects as go
 from django import forms
 
@@ -277,3 +278,10 @@ def signIn(request):
             request.session['username']=username
             return render(request, 'new/base.html', {'username':username})
 
+def hitview(request):
+    username=request.POST.get('username')
+    password=request.POST.get('email')
+    email = request.POST.get('password')
+    print(request.POST.copy())
+    #User.objects.create_user(username,email,password)
+    return HttpResponse("go and check admin")

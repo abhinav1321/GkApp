@@ -1,4 +1,16 @@
 
+<head>
+<script src="jquery-3.4.1.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+ <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"> </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+</head>
+
 <body style="position:relative;">
 
 
@@ -26,7 +38,7 @@
     </button>
 
 
-    <button class="btn btn-danger"> Sign Up
+    <button class="btn btn-danger"  data-target="#registerUser" data-toggle="modal"> Sign Up
     	<div class="modal"></div>
     </button>
   </div>
@@ -69,6 +81,88 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="registerUser">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form name="submituser" id='submituser' method='POST' >
+          <input type=hidden name='csrf_token' value='{% csrf_token %}'>
+        <h2 class="text-center">Create User</h2>
+        <div class="form-group">
+            <input type="text" class="form-control"  name='username' placeholder="Username" required="required">
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="email" required="required">
+        </div>
+
+        <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block" >Create</button>
+        </div>
+
+    </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+
+  $(document).on('submit','#submituser',function(e){
+    console.log('kjhh')
+    e.preventDefault();
+
+    var data = $('submituser').serialize();
+    console.log(data)
+    $.post('/new/hitview', data);
+/*
+    $.ajax({
+      type:'POST',
+      url:'/new/hitview',
+      data:{
+              username:$('#username').val(),
+              email:$('#email').val(),
+              password:$('#password').val(),
+              csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+
+      },
+
+      success:function(){
+          console.log('fhfj')
+          alert('sent');
+      }
+
+
+
+    });
+*/
+
+
+  });
+
+
+
+</script>
+
+
+
+
 
 
 
@@ -123,3 +217,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"> </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

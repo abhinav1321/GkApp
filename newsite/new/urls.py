@@ -16,4 +16,5 @@ urlpatterns = [
     path('plot',views.plot,name='plot'),
     path('sessions',views.session_demo,name='sessions'),
     path('signIn',views.signIn,name='signin'),
+    path('hitview',views.hitview, name='hitview'),
 ]
