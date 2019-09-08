@@ -97,14 +97,14 @@
           <input type=hidden name='csrf_token' value='{% csrf_token %}'>
         <h2 class="text-center">Create User</h2>
         <div class="form-group">
-            <input type="text" class="form-control"  name='username' placeholder="Username" required="required">
+            <input type="text" class="form-control" id='username' name='username' placeholder="Username" required="required">
         </div>
         <div class="form-group">
-            <input type="email" class="form-control" name="email" placeholder="email" required="required">
+            <input type="email" class="form-control" id="email" name="email" placeholder="email" required="required">
         </div>
 
         <div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required">
         </div>
 
         <div class="form-group">
@@ -124,14 +124,17 @@
 
 <script>
 
-  $(document).on('submit','#submituser',function(e){
+  $('#submituser').on('submit',function(e){
     console.log('kjhh')
+    var us=$('#username').val();
+    console.log(us);
     e.preventDefault();
 
-    var data = $('submituser').serialize();
+    /*var data = $('submituser').serialize();
     console.log(data)
     $.post('/new/hitview', data);
-/*
+    */
+
     $.ajax({
       type:'POST',
       url:'/new/hitview',
@@ -145,13 +148,13 @@
 
       success:function(){
           console.log('fhfj')
-          alert('sent');
+          
       }
 
 
 
     });
-*/
+
 
 
   });
@@ -184,7 +187,7 @@
 
 
 <!-- Footer -->
-<footer class="page-footer bg-info font-small cyan darken-3" style=" width:100%; margin-top:50px;bottom:0; position:absolute">
+<footer class="page-footer bg-info font-small cyan darken-3" style=" width:100%; margin-top:50px;bottom:0; position:relative" >
 
 
 

@@ -17,4 +17,7 @@ urlpatterns = [
     path('sessions',views.session_demo,name='sessions'),
     path('signIn',views.signIn,name='signin'),
     path('hitview',views.hitview, name='hitview'),
+    path('FormWizardView',views.FormWizardView,name='FormWizardView'),
+    path('jquery_step',views.jquery_step, name='jquery_step'),
+    path('new_ques_set',views.new_ques_set,name='new_ques_set'),
 ]

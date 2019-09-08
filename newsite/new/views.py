@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,render_to_response
 from django.http import HttpResponse
 from .models import Notifications,Exams,Subject,Topic, Questions
 import codecs
@@ -10,6 +10,8 @@ from django.contrib.auth import authenticate,login
 import django.contrib.auth.models as mod
 import plotly.graph_objects as go
 from django import forms
+from .forms import FormStepOne, FormStepTwo
+from formtools.wizard.views import SessionWizardView
 
 from .utils import insert_record, id_generator,set_maker
 
@@ -283,5 +285,43 @@ def hitview(request):
     password=request.POST.get('email')
     email = request.POST.get('password')
     print(request.POST.copy())
-    #User.objects.create_user(username,email,password)
-    return HttpResponse("go and check admin")
+    print(email)
+
+    try:
+        s = User.objects.create_user(username,email,password)
+    except Exception as e:
+        print(e)
+        return None
+    return json("done")
+
+# not yet complete
+class FormWizardView(SessionWizardView):
+    print('ghg')
+    template_name = 'new/wizard.html'
+
+    def done(self,form_list,**kwargs):
+        form_data = process_form_data(form_list)
+        return render_to_response('new/done.html',{'form_data':form_data})
+
+def process_form_data(form_list):
+    form_data = [form.cleaned_data for form in form_list]
+    return form_data
+
+
+def jquery_step(request):
+    return render(request,'new/jquery.html')
+
+def new_ques_set(request):
+    questions=set_maker()
+    q = []
+    for ques in questions:
+        i = 0
+
+        q.append({
+            "q_id": ques.q_id,
+        }
+        )
+
+        i = i + 1
+    return render(request,'new/question_set.html',{'questions':questions,'q_id':q})
+

@@ -1,0 +1,244 @@
+
+{% extends 'new/base.html' %}
+
+{% block content %}
+
+<body >
+  <div class="time">Time left = <span id="timer"></span></div>
+
+
+<form id="regForm" action="/new/count" method="post">
+
+
+
+<!-- One "tab" for each step in the form: -->
+  {% csrf_token %}
+{% for q in questions %}
+
+<div class="tab">
+<h5>{{q.q_text}}</h5>
+    <p>     </p>
+    <p> <input type="radio" name="{{q.q_id}}" value="a">  a.  {{q.a}}</input> </p>
+    <p> <input type="radio" name="{{q.q_id}}" value ="b">  b.  {{q.b}}</input> </p>
+    <p> <input type="radio"  name="{{q.q_id}}"  value = "c">  c.  {{q.c}}</input> </p>
+    <p>  <input type="radio" name="{{q.q_id}}" value = "d">  d.  {{q.d}}</input> </p>
+    <p>
+</div>
+
+   {% endfor %}
+
+
+
+    <div style="overflow:auto;">
+  <div style="float:right;">
+    <button type="button" id="prevBtn" onclick="nextPrev(-1)" >Previous</button>
+    <button type="button" id="nextBtn" onclick="nextPrev(1)" ">Next</button>
+  </div>
+</div>
+
+<input type="hidden" name="question" value="{{q_id}}">
+
+<!-- Circles which indicates the steps of the form: -->
+<div style="text-align:center;margin-top:40px;">
+  {% for q in questions %}
+  <span class="step" id="count" > {{ forloop.counter }}
+
+  </span>
+
+  {% endfor %}
+</div>
+
+
+
+</form>
+
+
+</body>
+
+
+
+<style>
+    /* Style the form */
+body{
+background-color: #fffdd0;
+}
+#regForm {
+  background-color: #fffdd0;
+  margin: 90px auto;
+
+  padding: 60px;
+  width: 80%;
+  min-width: 300px;
+}
+
+/* Style the input fields */
+input {
+  padding: 10px;
+
+  font-size: 25px;
+  font-family: Raleway;
+  border: 1px solid #aaaaaa;
+}
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+  background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+  display: none;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbbbbb;
+  border: none;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+/* Mark the active step: */
+.step.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  background-color: #4CAF50;
+}
+
+#prevBtn:hover{
+background-color:red;
+}
+.time {
+    padding:10px;
+  background-color:#419D78;
+
+  color:white;
+  font-size:20px;
+  text-align:center;
+}
+
+
+</style>
+
+<script >
+
+setTimeout(function(){
+      $('#regForm').submit();
+      alert("response saved and submitted")
+    },180000);
+// timer
+
+document.getElementById('timer').innerHTML =
+  03 + ":" + 00;
+startTimer();
+
+function startTimer() {
+  var presentTime = document.getElementById('timer').innerHTML;
+  var timeArray = presentTime.split(/[:]+/);
+  var m = timeArray[0];
+  var s = checkSecond((timeArray[1] - 1));
+  if(s==59){m=m-1}
+  //if(m<0){alert('timer completed')}
+
+  document.getElementById('timer').innerHTML =
+    m + ":" + s;
+  setTimeout(startTimer, 1000);
+
+}
+
+function checkSecond(sec) {
+  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+  if (sec < 0) {sec = "59"};
+  return sec;
+}
+
+
+
+
+
+    var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form ...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  // ... and fix the Previous/Next buttons:
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").innerHTML = "Submit";
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  // ... and run a function that displays the correct step indicator:
+  fixStepIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form... :
+  if (currentTab >= x.length) {
+    //...the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false:
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class to the current step:
+  x[n].className += " active";
+}
+
+</script>
+
+
+
+
+{% endblock %}
