@@ -6,6 +6,8 @@ from .import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('exam', views.exam, name='exam'),
+    path('get_topic', views.get_topic, name='get_topic'),
+    path('practice', views.practice, name='practice'),
     path('add', views.add, name='add'),
     path('add_topic',views.add_topic,name='add_topic'),
     path('add_ques',views.add_ques,name='add_ques'),

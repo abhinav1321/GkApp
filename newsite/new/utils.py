@@ -37,6 +37,7 @@ def insert_record(data, o):
 
 def set_maker():
     topic = Topic.objects.all().filter(**{'topic_id': 'TOPCYZ93HK'})
+    print(len(topic))
     print(topic)
     for i in topic:
         question = Questions.objects.filter(**{'topic_id':i})
@@ -47,6 +48,19 @@ def set_maker():
 
 
 
+def set_maker1(topic_id):
+
+    topic = Topic.objects.all().filter(**{'topic_id':topic_id })
+    print(len(topic))
+    print(topic)
+    for i in topic:
+        question = Questions.objects.filter(**{'topic_id':i})
+
+    try:
+        q= random.choices(question,k=10)
+    except:
+        q=[]
+    return q
 
 
 

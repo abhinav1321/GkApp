@@ -125,7 +125,8 @@ body{
     <div class="row" style="margin-bottom:50px; ">
 
         {% for s in subject %}
-
+     <form method="post" action ="{% url 'get_topic' %}">
+        {% csrf_token %}
  <div class="card bg-info" id="subject" style="width: 10rem;" >
 
   <img class="card-img-top" src="{% static 'new/images/' %}{{s}}.png" alt="Card image cap">
@@ -137,6 +138,7 @@ body{
   </div>
 
 </div>
+     </form>
 
         {% endfor %}
 </div>

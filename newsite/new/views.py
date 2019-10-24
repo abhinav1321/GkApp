@@ -13,7 +13,7 @@ from django import forms
 from .forms import FormStepOne, FormStepTwo
 from formtools.wizard.views import SessionWizardView
 
-from .utils import insert_record, id_generator,set_maker
+from .utils import insert_record, id_generator,set_maker,set_maker1
 
 # Create your views here.
 def index(request):
@@ -49,9 +49,40 @@ def exam(request):
     return render(request, 'new/exam.html',{'body': body,'notification':new_list})
 
 
+def get_topic(request):
+    subject = request.POST.get('Subject_name')
+    sub_obj= Subject.objects.all().filter(**{'subject_name': subject})
+
+    subject_id = sub_obj[0].subject_id
+    for i in sub_obj:
+        topic = Topic.objects.all().filter(**{'subject_id': i})
+
+    return render(request, 'new/select_topic.html', {'topic': topic})
+
+
+def practice(request):
+    topic_name = request.POST.get('topicname')
+    topic_object = Topic.objects.all().filter(**{'topicname': topic_name})
+    print(topic_object[0].topic_id)
+    questions = set_maker1(topic_object[0].topic_id)
+    q=[]
+    for ques in questions:
+        i = 0
+
+        q.append({
+            "q_id": ques.q_id,
+        }
+        )
+
+        i = i + 1
+
+    return render(request,'new/question_set.html',{'questions':questions,'q_id':q})
+
+
 def add(request):
     subject = Subject.objects.all()
-    new_subject=""  #to be added by view add_sub
+    new_subject=""
+    # to be added by view add_sub
     return render(request, 'new/add.html', {'subject': subject,'new_subject':new_subject})
 
 
