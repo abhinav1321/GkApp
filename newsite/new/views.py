@@ -1,37 +1,34 @@
 from django.shortcuts import render,redirect,render_to_response
 from django.http import HttpResponse
-from .models import Notifications,Exams,Subject,Topic, Questions
+from .models import Notifications,Exams,Subject,Topic,Questions
 import codecs
 import csv
 import json
-from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
-import django.contrib.auth.models as mod
 import plotly.graph_objects as go
 from django import forms
-from .forms import FormStepOne, FormStepTwo
 from formtools.wizard.views import SessionWizardView
 
 from .utils import insert_record, id_generator,set_maker,set_maker1
 
+
 # Create your views here.
 def index(request):
+    
     notification = Notifications.objects.all()
     new_list=[]
     for i in notification:
         new_list.append(i.notification)
-    check=[]
-    exam=Exams.objects.all()
-    body=[]
-    for e in exam:
+    exam_ = Exams.objects.all()
+    body = []
+    for e in exam_:
         body.append(e.exam_name)
-    subject=Subject.objects.all()
-    sub=[]
+    subject = Subject.objects.all()
+    sub = []
     for s in subject:
         sub.append(s.subject_name)
-    print(sub)
-    return render(request, 'new/index.html',{'notification': new_list,'exam':body,'subject':sub})
+    return render(request, 'new/index.html', {'notification': new_list, 'exam': body, 'subject': sub})
 
 
 def exam(request):
@@ -39,21 +36,21 @@ def exam(request):
     new_list = []
     for i in notification:
         new_list.append(i.notification)
-    exam=request.POST.get('exam_name')
+    exam = request.POST.get('exam_name')
 
-    examobj = Exams.objects.get(**{"exam_name": exam})
-    print("nextsection")
-    body = examobj.body
+    exam_obj = Exams.objects.get(**{"exam_name": exam})
+    body = exam_obj.body
 
     print(body)
-    return render(request, 'new/exam.html',{'body': body,'notification':new_list})
+    return render(request, 'new/exam.html', {'body': body, 'notification': new_list})
 
 
 def get_topic(request):
     subject = request.POST.get('Subject_name')
     sub_obj= Subject.objects.all().filter(**{'subject_name': subject})
+    #subject_id = sub_obj[0].subject_id
 
-    subject_id = sub_obj[0].subject_id
+    """ TO filter and find out correct topic , it has to iterate over the loop thats why for loop applied"""
     for i in sub_obj:
         topic = Topic.objects.all().filter(**{'subject_id': i})
 
