@@ -10,11 +10,21 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 </head>
+<style>
+  .btn{
+    margin: 0px 10px 0px 10px;
+  }
+  h5.card-title {
+    height: 45px;
+}
+</style>
 
-<body style="position:relative;">
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-info">
+
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-info">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -24,7 +34,7 @@
     <a class="navbar-brand" href="{% url 'index' %}">Home</a>
     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Link</a>
@@ -33,16 +43,46 @@
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
       </li>
     </ul>
+
+
+
+    {% if not username%}
+
     <button class="btn btn-success" data-target="#mymodal" data-toggle="modal"> Sign In
 
     </button>
 
-
-    <button class="btn btn-danger"  data-target="#registerUser" data-toggle="modal"> Sign Up
+       <button class="btn btn-danger "  data-target="#registerUser" data-toggle="modal"> Sign Up
     	<div class="modal"></div>
     </button>
+
+
+
+{% elif username == 'guest' %}
+
+    <button class="btn btn-success" data-target="#mymodal" data-toggle="modal"> Sign In
+
+    </button>
+<button class="btn btn-danger "  data-target="#registerUser" data-toggle="modal"> Sign Up
+    	<div class="modal"></div>
+    </button>
+
+
+      {% else %}
+
+      <li> Logged in As {{username}}</li>
+      <ul></ul>
+    <input type="button" onclick= 'location.href = "/new/?action=logout";' value="Sign Out"  />
+
+
+
+    {% endif %}
+
+
   </div>
 </nav>
+
+
 
 
 
@@ -57,7 +97,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action=/new/signIn method="post">
+        <form action=/new/ method="post">
           {% csrf_token %}
         <h2 class="text-center">Log in</h2>
         <div class="form-group">
@@ -120,7 +160,12 @@
   </div>
 </div>
 
+{% if username == 'guest'  %}
+<script>
+  alert('Username or Password incorrect, Please try again')
+</script>
 
+{% endif %}
 
 <script>
 
@@ -147,7 +192,7 @@
       },
 
       success:function(){
-          console.log('fhfj')
+          alert('user Created successfully')
           
       }
 
@@ -163,6 +208,11 @@
 
 </script>
 
+
+<script>
+
+
+</script>
 
 
 

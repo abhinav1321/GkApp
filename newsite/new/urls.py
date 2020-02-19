@@ -17,9 +17,11 @@ urlpatterns = [
     path('export_csv',views.export_csv,name='export_csv'),
     path('plot',views.plot,name='plot'),
     path('sessions',views.session_demo,name='sessions'),
-    path('signIn',views.signIn,name='signin'),
+    path('signIn', views.sign_in, name='signin'),
     path('hitview',views.hitview, name='hitview'),
     path('FormWizardView',views.FormWizardView,name='FormWizardView'),
     path('jquery_step',views.jquery_step, name='jquery_step'),
     path('new_ques_set',views.new_ques_set,name='new_ques_set'),
+    path('full_test',views.full_test,name='full_test'),
+    path('full_test_result_calculator',views.full_test_result_calculator,name='full_test_result_calculator'),
 ]

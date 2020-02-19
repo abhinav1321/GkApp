@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e79f5e13-835d-44ae-890a-d79bfd334941" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="e79f5e13-835d-44ae-890a-d79bfd334941" name="Default Changelist" comment="Some changes in Frontend, logo added,&#10;1 problem remians, background color">
+      <change afterPath="$PROJECT_DIR$/newsite/new/templates/new/score_result_full_test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/first_figure.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/first_figure.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/exam.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/exam.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/question_set.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/question_set.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/select_topic.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/select_topic.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,43 +30,32 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>new_subject</find>
-    </findStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="716" />
-    <option name="y" value="88" />
-    <option name="width" value="650" />
-    <option name="height" value="555" />
-  </component>
   <component name="ProjectId" id="1OToDUGWxdQeK0sbMu6M8De7ot6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/newsite/new/static/new/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/newsite/new/static/new" />
+      <recent name="$PROJECT_DIR$/newsite/new/templates/new" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/newsite/new/templates/new" />
+      <recent name="$PROJECT_DIR$/newsite/new/static/new" />
+      <recent name="$PROJECT_DIR$/newsite/new/static/new/jquery" />
       <recent name="$PROJECT_DIR$/newsite/new/static/new/images" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="views" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -81,6 +84,18 @@
         <item itemvalue="Python.views" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -163,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1564862375127</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Some changes in Frontend, logo added,&#10;1 problem remians, background color">
+      <created>1564862949595</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1564862949595</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TodoView">
@@ -216,5 +238,15 @@
     <MESSAGE value="with question set_maker in utils" />
     <MESSAGE value="Some changes in Frontend, logo added,&#10;1 problem remians, background color" />
     <option name="LAST_COMMIT_MESSAGE" value="Some changes in Frontend, logo added,&#10;1 problem remians, background color" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2" timestamp="1581698580006">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2/67.27.1299.741@67.27.1299.741" timestamp="1581698580005" />
+    <state x="499" y="154" width="424" height="484" key="FileChooserDialogImpl" timestamp="1580235122542">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state x="499" y="154" width="424" height="484" key="FileChooserDialogImpl/67.27.1299.741@67.27.1299.741" timestamp="1580235122542" />
   </component>
 </project>

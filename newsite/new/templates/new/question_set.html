@@ -3,7 +3,50 @@
 
 {% block content %}
 
+
+
 <body >
+
+{% if len == 0 %}
+
+<h3 style="text-align:center;color:red;"> No Questions Available for {{topicname}}</h3>
+{% else %}
+
+
+
+  <div id="tpopup">
+      <h3> Instructions </h3>
+      <div class="container">
+    <table class="table">
+        <tr class="table-primary">
+            <td>Quiz on </td>
+            <td> {{topicname}}</td>
+
+        </tr>
+
+        <tr class="table-success">
+            <td>Number of Questions</td>
+            <td> 10 </td>
+
+        </tr>
+
+        <tr class="table-secondary">
+            <td>Time Alloted</td>
+            <td> 3 minutes </td>
+
+        </tr>
+
+    </table>
+      </div>
+
+    <button id='accept' type="button" class="btn btn-warning">Accept</button>
+  </div>
+
+
+
+
+<h2 style="text-align:center;color:red;">Question set for {{topicname}}</h2>
+
   <div class="time">Time left = <span id="timer"></span></div>
 
 
@@ -16,7 +59,7 @@
 {% for q in questions %}
 
 <div class="tab">
-<h5>{{q.q_text}}</h5>
+<h5> {{ forloop.counter }}. {{q.q_text}}</h5>
     <p>     </p>
     <p> <input type="radio" name="{{q.q_id}}" value="a">  a.  {{q.a}}</input> </p>
     <p> <input type="radio" name="{{q.q_id}}" value ="b">  b.  {{q.b}}</input> </p>
@@ -32,7 +75,7 @@
     <div style="overflow:auto;">
   <div style="float:right;">
     <button type="button" id="prevBtn" onclick="nextPrev(-1)" >Previous</button>
-    <button type="button" id="nextBtn" onclick="nextPrev(1)" ">Next</button>
+    <button type="button" id="nextBtn" onclick="nextPrev(1)" >Next</button>
   </div>
 </div>
 
@@ -53,11 +96,57 @@
 </form>
 
 
+{% endif %}
 </body>
 
 
 
 <style>
+/* Pop-up */
+#thover{
+  position:fixed;
+  background:#000;
+  width:100%;
+  height:100%;
+  opacity: .6
+}
+
+#tpopup{
+  position:relative;
+  width:600px;
+  height:300px;
+  background:#FEC;
+  left:50%;
+  top:50%;
+  border-radius:5px;
+  padding:30px 0;
+  margin-left:-320px; /* width/2 + padding-left */
+  margin-top:-300px; /* height/2 + padding-top */
+  text-align:center;
+  box-shadow:0 0 10px 0 #000;
+}
+#tclose{
+  position:absolute;
+  background:black;
+  color:white;
+  right:-15px;
+  top:-15px;
+  border-radius:50%;
+  width:30px;
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  font-size:8px;
+  font-weight:bold;
+  font-family:'Arial Black', Arial, sans-serif;
+  cursor:pointer;
+  box-shadow:0 0 10px 0 #000;
+}
+
+
+
+
+
     /* Style the form */
 body{
 background-color: #fffdd0;
@@ -129,15 +218,36 @@ background-color:red;
 
 <script >
 
+$(document).ready(function(){
+
+  $("#thover").click(function(){
+		$(this).fadeOut();
+    $("#tpopup").fadeOut();
+	});
+
+
+  $("#accept").click(function(){
+		$("#thover").fadeOut();
+    $("#tpopup").fadeOut();
+    startTimer();
+	});
+
+});
+
+
+
+
+
 setTimeout(function(){
       $('#regForm').submit();
       alert("response saved and submitted")
     },180000);
+
 // timer
 
 document.getElementById('timer').innerHTML =
-  03 + ":" + 00;
-startTimer();
+  '03' + ":" + '00';
+
 
 function startTimer() {
   var presentTime = document.getElementById('timer').innerHTML;

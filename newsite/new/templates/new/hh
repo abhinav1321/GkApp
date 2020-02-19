@@ -1,0 +1,32 @@
+var correct = current[2];
+      var incorrect = current[3];
+      var unattampted = current[4];
+
+
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(function() {
+        drawChart('piechart_3d_'+row,  correct, incorrect, unattampted, current);
+      });
+
+
+
+
+      for (row=0;row<array.length;row++){
+      var current = new Array(5);
+      current = array[row];
+      console.log(current);
+
+      var correct = current[2];
+      var incorrect = current[3];
+      var unattampted = current[4];
+
+
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(function() {
+        drawChart('piechart_3d_'+row,  correct, incorrect, unattampted, current);
+      });
+
+       };
+
+
+       <input type="hidden" value={{session_variable}} name="session_variable" >

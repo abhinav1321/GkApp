@@ -1,66 +1,100 @@
-from django.shortcuts import render,redirect,render_to_response
+from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponse
-from .models import Notifications,Exams,Subject,Topic,Questions
+from .models import Notifications, Exams, Subject, Topic, Questions
 import codecs
 import csv
 import json
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate, login
 import plotly.graph_objects as go
 from django import forms
 from formtools.wizard.views import SessionWizardView
 
-from .utils import insert_record, id_generator,set_maker,set_maker1
+from .utils import insert_record, id_generator, set_maker, set_maker1, set_maker_for_subject
 
 
 # Create your views here.
+
+def check_user_logged(request):
+    username = ''
+    if request.session.has_key('username'):
+        username = request.session['username']
+    return username
+
+
 def index(request):
-    
+    username = ''
+    session_variable = ''
+
+    if request.method == 'POST':
+        username = sign_in(request)[0]
+        session_variable = sign_in(request)[1]
+    if request.method == 'GET':
+        print('here get')
+        sign_in(request)
+
+    username = check_user_logged(request)
+
     notification = Notifications.objects.all()
-    new_list=[]
+    new_list = []
     for i in notification:
         new_list.append(i.notification)
-    exam_ = Exams.objects.all()
+
+    exam = Exams.objects.all()
     body = []
-    for e in exam_:
+    for e in exam:
         body.append(e.exam_name)
     subject = Subject.objects.all()
     sub = []
     for s in subject:
         sub.append(s.subject_name)
-    return render(request, 'new/index.html', {'notification': new_list, 'exam': body, 'subject': sub})
+    print(sub)
+    return render(request, 'new/index.html', {'notification': new_list,
+                                              'exam': body,
+                                              'subject': sub,
+                                              'username': username,
+
+                                              }
+                  )
 
 
 def exam(request):
+    username = check_user_logged(request)
+
     notification = Notifications.objects.all()
     new_list = []
     for i in notification:
         new_list.append(i.notification)
-    exam = request.POST.get('exam_name')
+    exam_name = request.POST.get('exam_name')
+    session_variable = request.POST.get('session_variable')
+    print(type(session_variable))
 
-    exam_obj = Exams.objects.get(**{"exam_name": exam})
+    exam_obj = Exams.objects.get(**{"exam_name": exam_name})
     body = exam_obj.body
 
-    print(body)
-    return render(request, 'new/exam.html', {'body': body, 'notification': new_list})
+    return render(request, 'new/exam.html', {'body': body, 'notification': new_list,
+                                             'session_variable': session_variable,
+                                             'username': username
+                                             })
 
 
 def get_topic(request):
+    username = check_user_logged(request)
     subject = request.POST.get('Subject_name')
-    sub_obj= Subject.objects.all().filter(**{'subject_name': subject})
-    #subject_id = sub_obj[0].subject_id
+    sub_obj = Subject.objects.all().filter(**{'subject_name': subject})
 
-    """ TO filter and find out correct topic , it has to iterate over the loop thats why for loop applied"""
+    subject_id = sub_obj[0].subject_id
     for i in sub_obj:
         topic = Topic.objects.all().filter(**{'subject_id': i})
 
-    return render(request, 'new/select_topic.html', {'topic': topic})
+    return render(request, 'new/select_topic.html', {'topic': topic, 'Subject': subject, 'username': username})
 
 
 def practice(request):
+    username = check_user_logged(request)
     topic_name = request.POST.get('topicname')
     topic_object = Topic.objects.all().filter(**{'topicname': topic_name})
-    print(topic_object[0].topic_id)
+    #print(topic_object[0].topic_id)
     questions = set_maker1(topic_object[0].topic_id)
     q=[]
     for ques in questions:
@@ -72,23 +106,30 @@ def practice(request):
         )
 
         i = i + 1
+    number_of_questions = len(q)
 
-    return render(request,'new/question_set.html',{'questions':questions,'q_id':q})
+    return render(request, 'new/question_set.html', {'questions': questions,
+                                                    'q_id': q,
+                                                    'len': number_of_questions,
+                                                    'topicname': topic_name,
+                                                    'username': username
+                                                    })
 
 
 def add(request):
+    username = check_user_logged(request)
     subject = Subject.objects.all()
-    new_subject=""
+    new_subject = ""
     # to be added by view add_sub
-    return render(request, 'new/add.html', {'subject': subject,'new_subject':new_subject})
+    return render(request, 'new/add.html', {'subject': subject, 'new_subject' : new_subject})
 
 
 def add_topic(request):
+    username = check_user_logged(request)
     subject_id = request.POST.get('subject_id')
-    print("subid")
-    print(subject_id)
+    #print("subid")
+    #print(subject_id)
     topic_name = request.POST.get("topic_name")
-
     subject = Subject.objects.get(**{"subject_id": subject_id})
     data = {
         "topic_id": id_generator(o="topic", prefix="TOPC"),
@@ -124,7 +165,7 @@ def add_ques(request):
                 "topic_id": topic_id
             }
 
-            print(to_insert)
+            #print(to_insert)
 
             if insert_record(data=to_insert, o="question"):
                 row_count = row_count + 1
@@ -136,60 +177,63 @@ def add_ques(request):
 
 
 def add_sub(request):
-    subject=Subject.objects.all()
-    print("check1")
+    subject = Subject.objects.all()
+    #print("check1")
     new_subject = request.POST.get("Subject")
-    print(new_subject)
+    #print(new_subject)
     data = {
         "subject_name": new_subject,
         "subject_id": id_generator(o="sub", prefix="SU")
     }
-    print('jj')
+    #print('jj')
     insert_record(data, o="sub")
     print('jj')
-    return render(request, 'new/add.html', {'subject': subject, 'new_subject':new_subject})
+    return render(request, 'new/add.html', {'subject': subject, 'new_subject' : new_subject})
 
 
 def one_view(request):
 
-    question= set_maker()
-    print("length")
-    print(len(question))
-    q=[]
+    question = set_maker()
+    #print("length")
+    #print(len(question))
+    q = []
     for ques in question:
-        i=0
+        i = 0
 
-        q.append( {
+        q.append({
             "q_id": ques.q_id,
         }
         )
 
-        i=i+1
+        i = i+1
 
-    return render (request, 'new/one_view.html' , {'question':question,'q_id':q})
+    return render (request, 'new/one_view.html', {'question': question, 'q_id': q})
+
 
 def calculator(answer_list=None):
-    count =  0
-
+    count = 0
     for question in answer_list:
         obj = Questions.objects.filter(**{"q_id": question[0]})
-        if question[1] == obj[0].answer:
+
+        if question[1].lower() == obj[0].answer.lower():
             count += 1
+            print(question[1], obj[0].answer, count)
 
     return count
 
+
 def count(request):
     reply = request.POST.copy()
+    x = reply.items()
 
-    x=reply.items()
-    li =[]
+    li = []
     for element in x:
        li.append(element)
 
     result = calculator(answer_list=li[1:-1])
     ques_asked = li[-1]
-    print(type(ques_asked))
-    print(ques_asked)
+    #print(type(ques_asked))
+    #print(ques_asked)
 
     question_list = []
     for q in ques_asked[1].replace("[", "").replace("]", "").split(", "):
@@ -198,25 +242,24 @@ def count(request):
     y = []
     for a in question_list:
         y.append(a["q_id"])
-    print("y is")
-    print(y)
-    if result <=5:
+    #print("y is")
+    #print(y)
+    if result <= 5:
         review = "Improvement required"
-    elif (result <=7):
+    elif result <= 7:
         review = "GOOD Keep Going!"
     else:
         review = "WAaH bde log!"
 
-    return render (request, 'new/result.html', {'review':review,'result':result,'id':y})
+    return render(request, 'new/result.html', {'review': review, 'result': result, 'id': y})
 
 
 def export_csv(request):
-
-    id=request.POST.get('id')
-    li = list(id.replace("[","").replace("]","").split(", "))
-    question=[]
+    id = request.POST.get('id')
+    li = list(id.replace("[", "").replace("]", "").split(", "))
+    question = []
     for i in li:
-        q = Questions.objects.all().filter(**{'q_id':i})
+        q = Questions.objects.all().filter(**{'q_id': i})
         question.append(q[0])
 
     response = HttpResponse(content_type='text/csv')
@@ -225,8 +268,7 @@ def export_csv(request):
     writer.writerow(["q_id", "q_text", "a", "b", "c", "d", "answer"])
 
     for item in question:
-        writer.writerow([item.q_id,item.q_text,item.a,item.b,item.c,item.d,item.answer])
-
+        writer.writerow([item.q_id, item.q_text, item.a, item.b, item.c, item.d, item.answer])
 
     return response
 
@@ -234,8 +276,7 @@ def export_csv(request):
 def plot(request):
     fig = go.Figure(data=go.Bar(y=[2, 3, 1]))
     fig.write_html('first_figure.html')
-    return render(request,'new/first_figure.html')
-
+    return render(request, 'new/first_figure.html')
 
 
 class FormLogin(forms.Form):
@@ -247,26 +288,24 @@ def session_demo(request):
     time = None
     username = None  # default value
     form_login = FormLogin()
-    print("check1")
+    #print("check1")
     if request.method == 'GET':
 
         if 'action' in request.GET:
             action = request.GET.get('action')
             if action == 'logout':
-                print('checkhere')
+                #print('checkhere')
                 if request.session.has_key('username'):
                     request.session.flush()
                 return redirect('sessions')
-        print('check2')
+        #print('check2')
         if 'username' in request.session:
             username = request.session['username']
-            print("time")
-            print(request.session.get_expiry_age())  # session lifetime in seconds(from now)
+            #print("time")
+            #print(request.session.get_expiry_age())  # session lifetime in seconds(from now)
             print(
                 request.session.get_expiry_date())  # datetime.datetime object which represents the moment in time at which the session will expire
-            print('check3')
-
-
+            #print('check3')
 
     elif request.method == 'POST':
         form_login = FormLogin(request.POST)
@@ -280,56 +319,74 @@ def session_demo(request):
                 time = request.session.get_expiry_date()
             else:
                 username = None
-                time=None
+                time = None
 
     return render(request, 'new/sessions.html', {
         'demo_title': 'Sessions in Django',
         'form': form_login,
         'username': username,
-        'time':time
+        'time': time
     })
 
-def signIn(request):
-    time=None
-    username=None
-    if request.method== 'GET':
+
+def sign_in(request):
+    time = None
+    username = None
+    if request.method == 'GET':
+        print('check 1')
         if 'action' in request.GET:
-            if 'action' == 'logout':
-                if request.session.has_key['username']:
+
+            if request.GET['action'] == 'logout':
+                print('here reached')
+                if request.session.has_key('username'):
                     request.session.flush()
-                    return redirect('')
+                    # request.session.set_expiry(0)
+                    return redirect('/')
 
     elif request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
-        if user is not None:
-            request.session.set_expiry(900)
-            request.session['username']=username
-            return render(request, 'new/base.html', {'username':username})
+        a = User.objects.all()
+        for i in a:
+            print(i)
+        if user:
+            sess = request.session
+            sess['username'] = username
+            sess.set_expiry(900)
+
+            # request.session.set_expiry(900)
+            # request.session['username']=username
+            print('sess is ', sess)
+            return username.upper(), sess
+        else:
+            return 'guest', ''
+
 
 def hitview(request):
-    username=request.POST.get('username')
-    password=request.POST.get('email')
+    username = request.POST.get('username')
+    password = request.POST.get('email')
     email = request.POST.get('password')
     print(request.POST.copy())
     print(email)
-
     try:
-        s = User.objects.create_user(username,email,password)
+        s = User.objects.create_user(username, email, password)
+        print('here')
     except Exception as e:
         print(e)
-        return None
-    return json("done")
+        return e
+    return json('done')
+
 
 # not yet complete
 class FormWizardView(SessionWizardView):
     print('ghg')
     template_name = 'new/wizard.html'
 
-    def done(self,form_list,**kwargs):
+    def done(self, form_list, **kwargs):
         form_data = process_form_data(form_list)
-        return render_to_response('new/done.html',{'form_data':form_data})
+        return render_to_response('new/done.html', {'form_data': form_data})
+
 
 def process_form_data(form_list):
     form_data = [form.cleaned_data for form in form_list]
@@ -337,10 +394,11 @@ def process_form_data(form_list):
 
 
 def jquery_step(request):
-    return render(request,'new/jquery.html')
+    return render(request, 'new/jquery.html')
+
 
 def new_ques_set(request):
-    questions=set_maker()
+    questions = set_maker()
     q = []
     for ques in questions:
         i = 0
@@ -351,5 +409,112 @@ def new_ques_set(request):
         )
 
         i = i + 1
-    return render(request,'new/question_set.html',{'questions':questions,'q_id':q})
+    return render(request, 'new/question_set.html', {'questions': questions, 'q_id': q})
+
+
+def full_test(request):
+    subject_name = request.POST.get('Subject')
+    print(len(subject_name))
+    sub_obj = Subject.objects.all().filter(**{'subject_name': subject_name})
+    subject_id = sub_obj[0].subject_id
+    q_id = []
+    for s in sub_obj:
+        set = set_maker_for_subject(s.subject_id)
+        for s in set:
+            q_id.append(s['q_id'])
+    if set == 'questions less that 30':
+        print('yes')
+
+        return HttpResponse('NO')
+    else:
+        return render(request, 'new/test.html', {'set': set, 'q_id': q_id, 'subject': subject_name})
+
+
+def full_test_result_calculator(request):
+    username = check_user_logged(request)
+    reply = request.POST.copy()
+    print(reply)
+    reply_list = []
+    for element in reply.items():
+        reply_list.append(element)
+    answered_list = reply_list[1:-2]
+    asked_list = reply_list[-2][1][1:-1].split(',')
+    subject_name = reply_list[-1][1]
+    print(subject_name)
+    print(answered_list)
+    combined_list = []
+
+    for n in asked_list:
+        # print('check for ',n)
+        co = 0
+        ans = ''
+
+        for m in answered_list:
+            # print(m[0])
+            if int(m[0]) == int(n):
+                co = 1
+                ans = m[1]
+            else:
+                pass
+        if co == 1:
+            combined_list.append((n, ans , 1))
+        else:
+            combined_list.append((n, '', 0))
+    final_list = []
+    for c in combined_list:
+        marks = 0
+        status = ''
+        question_obj = Questions.objects.filter(q_id=c[0])
+        for q in question_obj:
+            topic = str(q.topic_id)
+            actual_answer = q.answer
+            if c[1] == actual_answer:
+                marks = 1
+                status = 'correct'
+            elif c[1] == '':
+                marks = 0
+                status = 'unattempted'
+            else:
+                marks = (-1*(1/4))
+                status = 'incorrect'
+        ques_tuple = (c[0], status, marks, topic)
+        final_list.append(ques_tuple)
+
+    final_score = 0
+    topic_wise = {}
+    for item in final_list:
+        final_score = float(final_score+float(item[2]))
+    for item in final_list:
+        correct, incorrect, unattempted = 0, 0, 0
+        print('item[1] as ', item[1])
+        if item[1] == 'correct':
+            print('correct yes')
+            correct = 1
+        elif item[1] == 'incorrect':
+            incorrect = 1
+            print('incorrect yes')
+        elif item[1] == 'unattempted':
+            unattempted = 1
+            print('un yes')
+        # list of score,correct,incorrect,unattempted
+        if not str(item[3]) in topic_wise.keys():
+            topic_wise[item[3]] = [float(item[2]), correct, incorrect, unattempted]
+
+        else:
+            topic_wise[item[3]][0] = topic_wise[item[3]][0] + float(item[2])
+            topic_wise[item[3]][1] = topic_wise[item[3]][1] + correct
+            topic_wise[item[3]][2] = topic_wise[item[3]][2] + incorrect
+            topic_wise[item[3]][3] = topic_wise[item[3]][3] + unattempted
+
+    for k, v in topic_wise.items():
+        print(k, v)
+    print(final_score)
+
+    return render(request, 'new/score_result_full_test.html', {'topic_wise_details': topic_wise,
+                                                               'score': final_score,
+                                                               'username': username
+                                                               })
+
+
+
 

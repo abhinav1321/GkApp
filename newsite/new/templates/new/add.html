@@ -124,7 +124,7 @@ Enter the Topic to be added
       <div class="modal-body">
 
             <form action="{% url 'add_ques' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+            {% csrf_token %}
         <h2> UPLOAD QUESTIONS AS A FILE</h2>
 
         <input type="file"  name="fileup">
