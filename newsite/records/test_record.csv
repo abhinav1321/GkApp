@@ -1,0 +1,19 @@
+test_id,data_time,username,subject,topic,ques_asked,ques_attempted,ques_correct,ques_incorrect,ques_unattempted,score_in_the_topic
+abhinav53790,2020-02-20 13:27:34.321888,abhinav,English (Bank),Sentence Correction/Improvement,10,0,0,0,10,0.0
+abhinav53790,2020-02-20 13:27:34.321888,abhinav,English (Bank),Error Spotting,12,0,0,0,12,0.0
+abhinav53790,2020-02-20 13:27:34.321888,abhinav,English (Bank),Phrase Replacement,8,0,0,0,8,0.0
+abhinav23210,2020-02-20 13:32:30.371655,abhinav,English (Bank),Sentence Correction/Improvement,11,1,0,1,10,-0.25
+abhinav23210,2020-02-20 13:32:30.371655,abhinav,English (Bank),Error Spotting,13,0,0,0,13,0.0
+abhinav23210,2020-02-20 13:32:30.371655,abhinav,English (Bank),Phrase Replacement,6,0,0,0,6,0.0
+abhinav86687,2020-02-20 16:01:52.282471,abhinav,English (Bank),Phrase Replacement,8,8,0,8,0,-2.0
+abhinav86687,2020-02-20 16:01:52.282471,abhinav,English (Bank),Sentence Correction/Improvement,11,11,0,11,0,-2.75
+abhinav86687,2020-02-20 16:01:52.282471,abhinav,English (Bank),Error Spotting,11,11,5,6,0,3.5
+abhinav26169,2020-02-21 00:39:55.855391,abhinav,Quantative Aptitude,Boats and streams,9,3,0,3,6,-0.75
+abhinav26169,2020-02-21 00:39:55.855391,abhinav,Quantative Aptitude,Problem on Trains,9,2,0,2,7,-0.5
+abhinav26169,2020-02-21 00:39:55.855391,abhinav,Quantative Aptitude,Permutations and Combinations,12,2,0,2,10,-0.5
+abhinav51751,2020-02-21 00:40:46.938697,abhinav,Quantative Aptitude,Problem on Trains,9,1,0,1,8,-0.25
+abhinav51751,2020-02-21 00:40:46.938697,abhinav,Quantative Aptitude,Permutations and Combinations,15,4,0,4,11,-1.0
+abhinav51751,2020-02-21 00:40:46.938697,abhinav,Quantative Aptitude,Boats and streams,6,0,0,0,6,0.0
+abhinav13624,2020-03-06 12:44:57.953607,abhinav,English (Bank),Sentence Correction/Improvement,8,1,0,1,7,-0.25
+abhinav13624,2020-03-06 12:44:57.953607,abhinav,English (Bank),Error Spotting,14,0,0,0,14,0.0
+abhinav13624,2020-03-06 12:44:57.953607,abhinav,English (Bank),Phrase Replacement,8,0,0,0,8,0.0

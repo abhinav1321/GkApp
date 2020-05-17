@@ -30,3 +30,66 @@ var correct = current[2];
 
 
        <input type="hidden" value={{session_variable}} name="session_variable" >
+
+
+
+
+
+
+
+
+                                ['Topic',
+                               'total_ques_asked',
+                               'total_ques_attempted',
+                               'total_ques_correct',
+                               'total_ques_incorrect',
+                               'total_ques_unattempted',
+                               'accuracy',
+                               'percent_score']
+
+
+
+
+
+
+{% elif verified == 'otp_sent' %}
+
+<p>otp_sent</p>
+<p>Please enter your OTP sent on registered mail id</p>
+
+    <form method='post' action="{% url 'verify' %}">
+        {% csrf_token %}
+        <input type="text" id="otp" name="otp" ><br>
+        <input type="hidden" id="otp_entry" name="otp_entry" value="{{otp_entry}}" ><br>
+        <input type="hidden" id="attempt" name="attempt" value="1" ><br>
+        <input type="submit" value="Submit" ><br>
+    </form>
+
+{% elif verified == 'otp_failed' %}
+
+    <form method='post' action="{% url 'verify' %}">
+        {% csrf_token %}
+        <input type="text" id="otp" name="otp" ><br>
+        <input type="hidden" id="otp_entry" name="otp_entry" value="{{otp_entry}}" ><br>
+                <input type="hidden" id="attempt" name="attempt" value="2" ><br>
+
+        <input type="submit" value="Submit" ><br>
+    </form>
+{% elif verified == 'otp_failed' %}
+
+    <form method='post' action="{% url 'verify' %}">
+        {% csrf_token %}
+        <input type="text" id="otp" name="otp" ><br>
+        <input type="hidden" id="otp_entry" name="otp_entry" value="{{otp_entry}}" ><br>
+                <input type="hidden" id="attempt" name="attempt" value="3" ><br>
+
+        <input type="submit" value="Submit" ><br>
+    </form>
+
+{% elif verified == 'damage' %}
+
+<p> All your Attempt failed , Please logout and login again </p>
+<button href="signIn">Logout</button>
+
+
+       

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import Notifications, Exams, Subject, Topic, Questions
 import codecs
 import csv
@@ -9,8 +9,12 @@ from django.contrib.auth import authenticate, login
 import plotly.graph_objects as go
 from django import forms
 from formtools.wizard.views import SessionWizardView
+import random
+import datetime
+from .mail import send_otp_mail
 
-from .utils import insert_record, id_generator, set_maker, set_maker1, set_maker_for_subject
+
+from .utils import insert_record, id_generator, set_maker, set_maker1, set_maker_for_subject, analysis, otp_generator, otp_verifier
 
 
 # Create your views here.
@@ -94,7 +98,7 @@ def practice(request):
     username = check_user_logged(request)
     topic_name = request.POST.get('topicname')
     topic_object = Topic.objects.all().filter(**{'topicname': topic_name})
-    #print(topic_object[0].topic_id)
+    # print(topic_object[0].topic_id)
     questions = set_maker1(topic_object[0].topic_id)
     q=[]
     for ques in questions:
@@ -127,8 +131,7 @@ def add(request):
 def add_topic(request):
     username = check_user_logged(request)
     subject_id = request.POST.get('subject_id')
-    #print("subid")
-    #print(subject_id)
+    # print(subject_id)
     topic_name = request.POST.get("topic_name")
     subject = Subject.objects.get(**{"subject_id": subject_id})
     data = {
@@ -165,7 +168,7 @@ def add_ques(request):
                 "topic_id": topic_id
             }
 
-            #print(to_insert)
+            # print(to_insert)
 
             if insert_record(data=to_insert, o="question"):
                 row_count = row_count + 1
@@ -178,14 +181,11 @@ def add_ques(request):
 
 def add_sub(request):
     subject = Subject.objects.all()
-    #print("check1")
     new_subject = request.POST.get("Subject")
-    #print(new_subject)
     data = {
         "subject_name": new_subject,
         "subject_id": id_generator(o="sub", prefix="SU")
     }
-    #print('jj')
     insert_record(data, o="sub")
     print('jj')
     return render(request, 'new/add.html', {'subject': subject, 'new_subject' : new_subject})
@@ -194,8 +194,6 @@ def add_sub(request):
 def one_view(request):
 
     question = set_maker()
-    #print("length")
-    #print(len(question))
     q = []
     for ques in question:
         i = 0
@@ -363,24 +361,27 @@ def sign_in(request):
             return 'guest', ''
 
 
-def hitview(request):
+def sign_up(request):
+    if request.is_ajax():
+        print('yes ajax')
     username = request.POST.get('username')
-    password = request.POST.get('email')
-    email = request.POST.get('password')
+    email = request.POST.get('email')
+    password = request.POST.get('password')
     print(request.POST.copy())
     print(email)
     try:
         s = User.objects.create_user(username, email, password)
-        print('here')
+        print('here', str(s))
+        json_response = {'if_success': 1, 'comment': str(s)}
     except Exception as e:
         print(e)
-        return e
-    return json('done')
+        json_response = {'if_success': 0, 'comment': str(e)}
+    return JsonResponse(json_response)
 
 
 # not yet complete
 class FormWizardView(SessionWizardView):
-    print('ghg')
+
     template_name = 'new/wizard.html'
 
     def done(self, form_list, **kwargs):
@@ -413,6 +414,7 @@ def new_ques_set(request):
 
 
 def full_test(request):
+    username = check_user_logged(request)
     subject_name = request.POST.get('Subject')
     print(len(subject_name))
     sub_obj = Subject.objects.all().filter(**{'subject_name': subject_name})
@@ -425,10 +427,43 @@ def full_test(request):
     if set == 'questions less that 30':
         print('yes')
 
-        return HttpResponse('NO')
+        return HttpResponse('Some error came, Please go to home page')
     else:
-        return render(request, 'new/test.html', {'set': set, 'q_id': q_id, 'subject': subject_name})
+        return render(request, 'new/test.html', {'username': username,'set': set, 'q_id': q_id, 'subject': subject_name})
 
+
+def test_record(username, subject, topic_wise):
+    with open('records/test_record.csv', 'a') as file:
+        writer = csv.writer(file)
+        print('test entrtieioifhdoi')
+        print('dskufh')
+        test_id = str(username) + str(random.randint(10000, 99999))
+        print(test_id, 'test id')
+        data_time = datetime.datetime.now()
+        print(test_id,data_time,'as test id time')
+        print(topic_wise)
+        for k, v in topic_wise.items():
+            topic = k
+            ques_correct = v[1]
+            ques_incorrect = v[2]
+            ques_unattempted = v[3]
+            ques_attempted = ques_correct + ques_incorrect
+            ques_asked = ques_attempted + ques_unattempted
+            score_in_the_topic = v[0]
+            writer.writerow((test_id, data_time, username, subject,
+                             topic,
+                             ques_asked,
+                             ques_attempted,
+                             ques_correct,
+                             ques_incorrect,
+                             ques_unattempted,
+                             score_in_the_topic))
+        file.close()
+    with open('records/test_record.csv', 'r+') as file2:
+        reader = csv.reader(file2)
+        for r in reader:
+            print(r)
+        file2.close()
 
 def full_test_result_calculator(request):
     username = check_user_logged(request)
@@ -486,16 +521,12 @@ def full_test_result_calculator(request):
         final_score = float(final_score+float(item[2]))
     for item in final_list:
         correct, incorrect, unattempted = 0, 0, 0
-        print('item[1] as ', item[1])
         if item[1] == 'correct':
-            print('correct yes')
             correct = 1
         elif item[1] == 'incorrect':
             incorrect = 1
-            print('incorrect yes')
         elif item[1] == 'unattempted':
             unattempted = 1
-            print('un yes')
         # list of score,correct,incorrect,unattempted
         if not str(item[3]) in topic_wise.keys():
             topic_wise[item[3]] = [float(item[2]), correct, incorrect, unattempted]
@@ -509,12 +540,80 @@ def full_test_result_calculator(request):
     for k, v in topic_wise.items():
         print(k, v)
     print(final_score)
-
+    try:
+        if not username == '':
+            print('here to do the work')
+            test_record(username, subject_name, topic_wise)
+    except Exception as e:
+        print(e)
     return render(request, 'new/score_result_full_test.html', {'topic_wise_details': topic_wise,
                                                                'score': final_score,
                                                                'username': username
                                                                })
 
 
+def user_analysis(request):
+    user = check_user_logged(request)
+
+    detail = analysis(user)
+
+    return render(request, 'new/user_analy.html', {
+                                                    'username': user,
+                                                    'detail': detail[0],
+                                                    'sub_list': detail[1],
+                                                    }
+                  )
 
 
+def user_profile(request):
+    user = check_user_logged(request)
+    verified = 'not_verified'
+    if not user == 'guest':
+
+        with open('records/registered_user.csv', 'r') as file:
+            reader = csv.reader(file)
+            for r in reader:
+                try:
+                    if r[0] == user:
+                        verified = 'verified'
+                except Exception as e:
+                    print(e)
+            file.close()
+    return render(request, 'new/profile.html', {'username': user,
+                                                'verified': verified,
+                                                })
+
+
+def verify(request):
+    user = check_user_logged(request)
+    verified = 'otp_failed'
+    if request.method == 'POST':
+        otp = request.POST.get('otp')
+        otp_entry = request.POST.get('otp_entry')
+        # print(request.POST.get('attempt'))
+        attempt = int(request.POST.get('attempt'))
+        print(otp, otp_entry, attempt)
+
+        if attempt < 3:
+            verifier = otp_verifier(otp, otp_entry, user, verified)
+            # print(verifier[1])
+            verified = verifier[0]
+            attempt = verifier[1]
+            return render(request, 'new/profile.html', {'verified': verified,
+                                                        'username': user,
+                                                        'otp_entry': otp_entry,
+                                                        'attempt': attempt
+                                                        })
+        else:
+            return render(request, 'new/profile.html', {'verified': 'damage',
+                                                        'username': user,
+                                                        'otp_entry': 'not required'
+                                                        })
+    if request.method == 'GET':
+        otp_entry = otp_generator(user)
+
+        return render(request, 'new/profile.html', {'verified': 'otp_sent',
+                                                    'username': user,
+                                                    'otp_entry': otp_entry,
+                                                    'attempt': 1
+                                                    })

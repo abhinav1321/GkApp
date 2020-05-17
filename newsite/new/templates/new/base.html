@@ -70,7 +70,7 @@
 
       {% else %}
 
-      <li> Logged in As {{username}}</li>
+      <li> Logged in As <a href="user_analysis">{{username}}</a>  </li>
       <ul></ul>
     <input type="button" onclick= 'location.href = "/new/?action=logout";' value="Sign Out"  />
 
@@ -128,12 +128,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" id="closeid" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form name="submituser" id='submituser' method='POST' >
+        <form name="submituser"  id='submituser' method='POST' >
           <input type=hidden name='csrf_token' value='{% csrf_token %}'>
         <h2 class="text-center">Create User</h2>
         <div class="form-group">
@@ -160,6 +160,8 @@
   </div>
 </div>
 
+
+
 {% if username == 'guest'  %}
 <script>
   alert('Username or Password incorrect, Please try again')
@@ -175,14 +177,11 @@
     console.log(us);
     e.preventDefault();
 
-    /*var data = $('submituser').serialize();
-    console.log(data)
-    $.post('/new/hitview', data);
-    */
+    
 
     $.ajax({
       type:'POST',
-      url:'/new/hitview',
+      url:'/new/sign_up',
       data:{
               username:$('#username').val(),
               email:$('#email').val(),
@@ -191,18 +190,41 @@
 
       },
 
-      success:function(){
-          alert('user Created successfully')
+      
+      success:function(data){
           
-      }
+          var close = document.getElementById("closeid");
+          console.log(close);
+          close.click();
+          
+
+          if (data['if_success'] == 1) {  alert('User '+String(data['comment']+' is Created Successfully')  ) }
+          if (data['if_success'] == 0) { "Sorry , Failed to Create "+ alert(String(data['comment'])+'=>  User is not created ' )  }
+            // var modal1 = document.getElementsByClassName('modal');
+            // console.log(modal1[0]);
+            // modal1[0].modal("hide");
+         
+
+            
+        
+  
+
+
+          
+          }
+          });
+
+
+          
+      });
 
 
 
-    });
+   
 
 
 
-  });
+
 
 
 

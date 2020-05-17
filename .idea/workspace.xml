@@ -2,17 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e79f5e13-835d-44ae-890a-d79bfd334941" name="Default Changelist" comment="Some changes in Frontend, logo added,&#10;1 problem remians, background color">
-      <change afterPath="$PROJECT_DIR$/newsite/new/templates/new/score_result_full_test.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/newsite/new/templates/new/user_analysis.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/newsite/records/registered_user.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/newsite/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/newsite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/newsite/first_figure.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/first_figure.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/add.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/exam.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/exam.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/question_set.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/question_set.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/select_topic.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/select_topic.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/hh" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/hh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/newsite/new/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/newsite/new/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/newsite/new/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/views.py" afterDir="false" />
@@ -25,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -37,7 +34,6 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -46,15 +42,17 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/newsite/new/static/new" />
-      <recent name="$PROJECT_DIR$/newsite/new/templates/new" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/newsite/new" />
       <recent name="$PROJECT_DIR$/newsite/new/templates/new" />
       <recent name="$PROJECT_DIR$/newsite/new/static/new" />
       <recent name="$PROJECT_DIR$/newsite/new/static/new/jquery" />
       <recent name="$PROJECT_DIR$/newsite/new/static/new/images" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/newsite/records" />
+      <recent name="$PROJECT_DIR$/newsite/new/static/new" />
+      <recent name="$PROJECT_DIR$/newsite/new/templates/new" />
     </key>
   </component>
   <component name="RunManager">
@@ -84,18 +82,6 @@
         <item itemvalue="Python.views" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -212,9 +198,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -233,6 +217,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="with question set_maker in utils" />
@@ -244,9 +229,33 @@
       <screen x="67" y="27" width="1299" height="741" />
     </state>
     <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2/67.27.1299.741@67.27.1299.741" timestamp="1581698580005" />
-    <state x="499" y="154" width="424" height="484" key="FileChooserDialogImpl" timestamp="1580235122542">
+    <state x="499" y="154" width="424" height="484" key="FileChooserDialogImpl" timestamp="1587894112171">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state x="499" y="154" width="424" height="484" key="FileChooserDialogImpl/67.27.1299.741@67.27.1299.741" timestamp="1580235122542" />
+    <state x="499" y="154" width="424" height="484" key="FileChooserDialogImpl/67.27.1299.741@67.27.1299.741" timestamp="1587894112171" />
+    <state width="1276" height="174" key="GridCell.Tab.0.bottom" timestamp="1582182242092">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="1276" height="174" key="GridCell.Tab.0.bottom/67.27.1299.741@67.27.1299.741" timestamp="1582182242092" />
+    <state width="1276" height="174" key="GridCell.Tab.0.center" timestamp="1582182242089">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="1276" height="174" key="GridCell.Tab.0.center/67.27.1299.741@67.27.1299.741" timestamp="1582182242089" />
+    <state width="1276" height="174" key="GridCell.Tab.0.left" timestamp="1582182242088">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="1276" height="174" key="GridCell.Tab.0.left/67.27.1299.741@67.27.1299.741" timestamp="1582182242088" />
+    <state width="1276" height="174" key="GridCell.Tab.0.right" timestamp="1582182242089">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="1276" height="174" key="GridCell.Tab.0.right/67.27.1299.741@67.27.1299.741" timestamp="1582182242089" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1584477519275">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/67.27.1299.741@67.27.1299.741" timestamp="1584477519275" />
+    <state x="379" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1584040861875">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state x="379" y="89" width="672" height="678" key="search.everywhere.popup/67.27.1299.741@67.27.1299.741" timestamp="1584040861875" />
   </component>
 </project>
