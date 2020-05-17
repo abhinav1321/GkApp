@@ -1,0 +1,89 @@
+
+{{detail}}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    var detail ="{{ detail }}";
+    var find = '&#39;';
+    var re = new RegExp(find, 'g');
+
+    detail = detail.replace(re, '"');
+
+
+    detail = JSON.parse(detail);
+    console.log(detail)
+    var x;
+    sub_dict = {};
+    for (var i=0;i<detail.length;i++){
+        console.log(detail[i])
+        console.log('at here');
+        if (sub_dict[detail[i][0]] == null) {
+            console.log('here at1 ');
+            sub_dict[detail[i][0]] = [];
+            sub_dict[detail[i][0]].push(['Topic',
+                               'Ques_asked',
+                               'Attempted',
+                               'Correct',
+                               'Incorrect',
+                               'Unattempted',
+                               'Accuracy',
+                               'Percent_score']
+)
+            sub_dict[detail[i][0]].push([detail[i][1],detail[i][2],detail[i][3],detail[i][4],detail[i][5],detail[i][6],detail[i][7],detail[i][8]]);
+
+        }
+        else {
+            console.log('here at 2');
+
+            sub_dict[detail[i][0]].push([detail[i][1],detail[i][2],detail[i][3],detail[i][4],detail[i][5],detail[i][6],detail[i][7],detail[i][8]]);
+        }
+
+
+    }
+    console.log(sub_dict);
+
+    for (var key in sub_dict) {
+
+
+            var to_show = [sub_dict[key]][0];
+           
+
+
+
+
+    var i = 0;
+    console.log("To show as ",typeof to_show,to_show)
+    google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawVisualization);
+
+      function drawVisualization() {
+        // Some raw data (not necessarily accurate)
+        var data = google.visualization.arrayToDataTable(to_show);
+        var length = to_show.length
+        console.log('cooroect len',length)
+        var options = {
+          title : 'Score in '+ key,
+          vAxis: {title: '-'},
+          hAxis: {title: 'Topic'},
+          seriesType: 'bars',
+           series: {7: {type: 'line'}}
+          };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div_'+i));
+        chart.draw(data, options);
+
+        i=i+1;
+    }
+}
+
+
+
+
+</script>
+
+ <body>
+    <div id="chart_div_0" style="width: 900px; height: 500px;"></div>
+    <div id="chart_div_1" style="width: 900px; height: 500px;"></div>
+    <div id="chart_div_2" style="width: 900px; height: 500px;"></div>
+
+
+  </body>

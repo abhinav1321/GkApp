@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e79f5e13-835d-44ae-890a-d79bfd334941" name="Default Changelist" comment="Some changes in Frontend, logo added,&#10;1 problem remians, background color">
-      <change afterPath="$PROJECT_DIR$/newsite/new/templates/new/user_analysis.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/records/registered_user.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newsite/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/first_figure.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/first_figure.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/new/templates/new/hh" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/templates/new/hh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/new/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/new/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newsite/new/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/newsite/new/views.py" afterDir="false" />
+    <list default="true" id="e79f5e13-835d-44ae-890a-d79bfd334941" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/newsite/new/templates/new/profile.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/newsite/new/templates/new/user_analy.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/newsite/new/templates/new/user_test.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +163,14 @@
       <option name="project" value="LOCAL" />
       <updated>1564862949595</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="added mail api, and other changes">
+      <created>1589708315766</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1589708315766</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView">
@@ -222,7 +221,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="with question set_maker in utils" />
     <MESSAGE value="Some changes in Frontend, logo added,&#10;1 problem remians, background color" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some changes in Frontend, logo added,&#10;1 problem remians, background color" />
+    <MESSAGE value="added mail api, and other changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="added mail api, and other changes" />
   </component>
   <component name="WindowStateProjectService">
     <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2" timestamp="1581698580006">

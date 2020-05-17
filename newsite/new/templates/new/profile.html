@@ -1,0 +1,54 @@
+
+
+{% if  verified == 'not_verified' %}
+
+<div class="info">
+    <p> Hi {{username}}</p>
+<p>You Account is not Verified</p>
+<a href="verify">Verify Here </a>
+    <p>An OTP will be sent to Your Registered Mail ID</p>
+</div>
+
+{% elif verified == 'otp_sent' %}
+
+<div>
+<p>otp_sent</p>
+<p>Please enter your OTP sent on registered mail id</p>
+
+    <form method='post' action="{% url 'verify' %}">
+        {% csrf_token %}
+        <input type="text" id="otp" name="otp" ><br>
+        <input type="hidden" id="otp_entry" name="otp_entry" value="{{otp_entry}}" ><br>
+        <input type="hidden" id="attempt" name="attempt" value="{{attempt}}" ><br>
+        <input type="submit" value="Submit" ><br>
+    </form>
+</div>
+
+{% elif verified == 'otp_failed' %}
+
+<div>
+<p>otp_failed</p>
+<p>Please enter Again carefully</p>
+
+    <form method='post' action="{% url 'verify' %}">
+        {% csrf_token %}
+        <input type="text" id="otp" name="otp" ><br>
+        <input type="hidden" id="otp_entry" name="otp_entry" value="{{otp_entry}}" ><br>
+        <input type="hidden" id="attempt" name="attempt" value="{{attempt}}" ><br>
+        <input type="submit" value="Submit" ><br>
+    </form>
+</div>
+
+{% elif verified == 'damage' %}
+
+<div>
+<p> All your Attempt failed , Please logout and login again </p>
+
+</div>
+
+{% elif verified == 'verified'%}
+<div> Hi {{username}}</div>
+<div> Your Account is verified  </div>
+
+
+{% endif %}
