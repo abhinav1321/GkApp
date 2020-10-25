@@ -78,8 +78,8 @@ body{
 -->
 
 
-<div class="container" style="margin-top: 50px;">
-  <h2 style="margin-left:50px"> Common Exams </h2>
+<div class="container" style="margin-top: 120px; ">
+  <h2 style="margin-left:50px; margin-bottom:10px;"> Common Exams </h2>
   <div class="row">
 
     <div class="col lg-8 col-md-8 col-12" >
@@ -89,6 +89,7 @@ body{
 
         {% for e in exam %}
           <form method="POST" id="{{e}}" action = "/new/exam">
+
             <div class="card bg-info "  style="width: 10rem;"  >
 
               <img class="card-img-top" src="{% static 'new/images/' %}{{e}}.png" alt="Card image cap">
@@ -99,6 +100,7 @@ body{
                   <input type="submit"  value="Select" class="submit_exam btn-outline-dark"  >
                   {% csrf_token %}
                 <p class="card-text"></p>
+
               </div>
 
   </div>
@@ -125,7 +127,7 @@ body{
 
 </div>
 
-<div style = "justify-content:center;display:flex; align-items:center;"><a class='button' href= "{% url 'new_ques_set' %}" >   Try An Exam </a></div>
+<!--<div style = "justify-content:center;display:flex; align-items:center;"><a class='button' href= "{% url 'new_ques_set' %}" >   Try An Exam </a></div>-->
 
 <div class="container" id="contains_subject" style="margin-top: 50px;">
 

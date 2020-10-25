@@ -21,9 +21,6 @@
 
 
 
-
-
-
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-info">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -31,29 +28,42 @@
 
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <a class="navbar-brand" href="{% url 'index' %}">Home</a>
+
+{% load static %}
+<a href="{% url 'index' %}">
+      <img  class="logo" style="margin-left:0px;" src="{% static 'new/images/Thegkapp1.png' %}" >
+
+</a>
+
+    <a class="navbar-brand" href="{% url 'index' %}" style="color:#f3f3f3; font-weight:900;margin-left:33%;text-align:center;"  > TheGkApp </a>
+
+
     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
       <li class="nav-item active">
-        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
+<!--        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>-->
+<!--      </li>-->
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link" href="#">Link</a>-->
+<!--      </li>-->
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
+<!--      </li>-->
     </ul>
 
 
 
     {% if not username%}
 
+
+
     <button class="btn btn-success" data-target="#mymodal" data-toggle="modal"> Sign In
 
     </button>
 
        <button class="btn btn-danger "  data-target="#registerUser" data-toggle="modal"> Sign Up
-    	<div class="modal"></div>
+    	<div class="modal">
+
+        </div>
     </button>
 
 
@@ -172,7 +182,7 @@
 <script>
 
   $('#submituser').on('submit',function(e){
-    console.log('kjhh')
+
     var us=$('#username').val();
     console.log(us);
     e.preventDefault();
@@ -220,31 +230,13 @@
 
 
 
-   
-
-
-
-
-
-
 
 </script>
-
-
-<script>
-
-
-</script>
-
-
-
-
-
-
 
 
 {% block content %}
             {% endblock %}
+
 
 
 
@@ -259,20 +251,22 @@
 
 
 <!-- Footer -->
-<footer class="page-footer bg-info font-small cyan darken-3" style=" width:100%; margin-top:50px;bottom:0; position:relative" >
+<footer class="page-footer bg-info font-small cyan darken-3" style=" width:100%; margin-top:50px;margin-bottom:-100px; position:relative" >
 
 
 
   <!-- Copyright -->
   <div class="footer-copyright text-center py-3">© 2018 Copyright:
-    <a href=http://localhost:8000/new> Mysite.com</a>
+    <a href ='/new/' >
     <div>
     Important Links
-      <li href="/new/"> Home </li>
+      <li href="/new/"> TheGKApp </li>
 
     </div>
 
   </div>
+
+
 
   <!-- Copyright -->
 

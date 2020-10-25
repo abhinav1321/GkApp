@@ -1,15 +1,13 @@
 
 
-
 {% extends 'new/base.html' %}
 
 {% block content %}
 
 
-
 {% if username %}
 
-
+{% if data is 'yes' %}
 
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -119,46 +117,6 @@ console.log('lists ',to_show_table)
 
 });
 
-to_show_table.map((current,index) => {
-
-      google.charts.load('current', {'packages':['table']});
-      google.charts.setOnLoadCallback(function() {
-        drawTable('table_div_'+current[0],  current[1]);
-      
-      });
-
-
-
-
-      function drawTable(table_div,data_array) {
-
-        console.log(Array.isArray(data_array),'isarrayins','+ div as',table_div)
-        
-       var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Name');
-        data.addColumn('string', 'Attempt_rate in Percent');
-        data.addColumn('string', 'Percentage Accuracy');
-        data.addColumn('string', 'Percent_score');
-        data.addRows(data_array);
-          };
-
-        var table = new google.visualization.Table(document.getElementById(table_div));
-
-        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'})
-
-
-    });
-
-
-
-
-
-
-
-
-
-
-
 
 
 </script>
@@ -172,13 +130,16 @@ to_show_table.map((current,index) => {
 </iframe>
   </div>
 
-  <h2 style="text-align:center;"> Analysis For {{username}} </h2>
+  <h1 style="text-align:center;color:red"> Analysis For {{username}} </h1>
 </div>
 
-{% for s in sub_list %}
-  <div id="chart_div_{{s}}" style="width: 900px; height: 500px; margin-left:150px;"></div>
-  <div id="table_div_{{s}}" style="width: 900px; height: 500px; margin-left:150px;"></div>
+{% for k,v in html_table.items%}
 
+<div class="box" style ="border: 5px solid gray;">
+  <h2 style="text-align:center; margin-top:50px;">Subject : {{k}}</h2>
+  <div id="chart_div_{{k}}" style="width: 900px; height: 500px; margin-left:150px;"></div>
+  <div id="table_div_{{k}}" style="margin-left:150px; margin-bottom:20px"> {{v|safe}}</div>
+</div>
 
 
 {% endfor %}
@@ -187,6 +148,17 @@ to_show_table.map((current,index) => {
 
   </body>
 
+
+{% else %}
+
+
+<div style="margin-top:100px;">
+<p>Hi {{username}}, You Currently have no Data</p>
+
+<a    href="{% url 'index' %}">Go To HomePage</a>
+
+
+  {% endif %}
 
 {% else %}
 

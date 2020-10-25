@@ -19,8 +19,8 @@ class Main:
         # The file token.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
         # time.
-        if os.path.exists('records/token.pickle'):
-            with open('records/token.pickle', 'rb') as token:
+        if os.path.exists('/home/abhinav/credentials/token.pickle'):
+            with open('/home/abhinav/credentials/token.pickle', 'rb') as token:
                 self.creds = pickle.load(token)
         # If there are no (valid) credentials available, let the user log in.
         if not self.creds or not self.creds.valid:
@@ -28,10 +28,10 @@ class Main:
                 self.creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'records/credentials.json', SCOPES)
+                    '/home/abhinav/credentials/credentials.json', SCOPES)
                 self.creds = flow.run_local_server(port=0)
             # Save the credentials for the next run
-            with open('records/token.pickle', 'wb') as token:
+            with open('/home/abhinav/credentials/token.pickle', 'wb') as token:
                 pickle.dump(self.creds, token)
 
         self.service = build('gmail', 'v1', credentials=self.creds)
@@ -44,7 +44,7 @@ class CreateAndSend:
         message = MIMEText(message_text)
         message['to'] = to
         message['from'] = sender
-        message['bcc'] = 'sharmaabhinav97@gmail.com'
+        message['bcc'] = ''
         message['subject'] = subject
         to_send = {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
         print(message)

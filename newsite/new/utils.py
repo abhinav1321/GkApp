@@ -7,7 +7,7 @@ import operator
 import csv
 from .mail import send_otp_mail
 from django.contrib.auth.models import User
-
+import os
 
 
 MODEL_OBJ = {
@@ -15,7 +15,9 @@ MODEL_OBJ = {
     "topic": Topic,
     "question": Questions,
 }
-# prefix should be three charactors of subject. like for Physics
+
+
+# prefix should be three characters of subject. like for Physics
 def id_generator(o, prefix="PHY"):
     obj = MODEL_OBJ[o]
     pid = prefix + ''.join(choice(ascii_uppercase + digits) for _ in range(6))
@@ -30,6 +32,7 @@ def id_generator(o, prefix="PHY"):
         pid = id_generator(prefix, o)
         return pid
 
+
 def insert_record(data, o):
     obj = MODEL_OBJ[o]
     try:
@@ -40,18 +43,16 @@ def insert_record(data, o):
     return c
 
 
-
 def set_maker():
+
     topic = Topic.objects.all().filter(**{'topic_id': 'TOPCYZ93HK'})
     print(len(topic))
     print(topic)
     for i in topic:
         question = Questions.objects.filter(**{'topic_id':i})
 
-
-    q= random.choices(question,k=10)
+    q = random.choices(question, k=10)
     return q
-
 
 
 def set_maker1(topic_id):
@@ -63,17 +64,17 @@ def set_maker1(topic_id):
         question = Questions.objects.filter(**{'topic_id':i})
 
     try:
-        q= random.choices(question,k=10)
+        q = random.choices(question, k=10)
     except:
-        q=[]
+        q = []
     return q
 
 
 def set_maker_for_subject(subject_id):
     q_set = []
-    q_list=[]
-    sum=0
-    topic = Topic.objects.filter(subject_id= Subject.objects.filter(subject_id=subject_id)[0])
+    q_list = []
+    sum = 0
+    topic = Topic.objects.filter(subject_id=Subject.objects.filter(subject_id=subject_id)[0])
     for t in topic:
         question_set = Questions.objects.filter(topic_id=Topic.objects.filter(topic_id=t.topic_id)[0])
         if len(question_set) > 0:
@@ -102,24 +103,31 @@ def set_maker_for_subject(subject_id):
 
 def analysis(user):
 
-    data = pd.read_csv('/home/abhinav/Desktop/test_record.csv')
+    data = pd.read_csv('records/test_record.csv')
 
     print(data.head(3))
     userwise = data.groupby('username')
 
-    for user, user_data in userwise:
-        if user == user:
-            user_subject_wise = user_data.groupby('subject')
-    sub_wise_dict = {}
+    for uname, user_data in userwise:
 
+        if uname == user:
+            user_subject_wise = user_data.groupby('subject')
+        else:
+            return 'no data'
+    sub_wise_dict = {}
+    print(sub_wise_dict)
+
+    html_table = {}
     for sub, sub_data in user_subject_wise:
         topic_data = sub_data.groupby('topic')
+        html_table[sub] = sub_data.groupby('topic').sum().to_html()
         topic_dict = {}
         for topic_name, top_data in topic_data:
             topic_dict[topic_name] = top_data.reset_index()
         sub_wise_dict[sub] = topic_dict
 
     score_list = []
+
     for k, v in sub_wise_dict.items():
 
         for key, value in v.items():
@@ -143,8 +151,9 @@ def analysis(user):
                               )
 
     sorted_list = sorted(score_list, key=operator.itemgetter(0, 8))
+    print(sorted_list)
 
-    return sorted_list, sub_wise_dict.keys()
+    return sorted_list, sub_wise_dict.keys(), html_table
 
 
 def otp_generator(user):
@@ -185,3 +194,41 @@ def otp_verifier(otp, otp_entry, user, verified):
         for line in write_again:
             rewriter.writerow(line)
     return [verified, attempt]
+
+
+
+
+def analyse(user):
+    if user == '':
+        return '<h1>Please Login</h1>'
+    df = pd.read_csv('records/test_record.csv')
+
+    grouped = df.groupby('username')
+    if user not in grouped.groups.keys():
+        return '<h1> Hi' + user + ', It seems you do not have practiced any test yet</h1>'
+    for user_name, data in grouped:
+        subject_wise = []
+        if user_name == user:
+            #         print(data)
+            sub_group = data.groupby('subject')
+
+            sub_group = dict(tuple(sub_group))
+
+    plot = {}
+    tag = ''
+    for k, v in sub_group.items():
+        v.set_index('topic', inplace=True)
+
+        v.drop(v.columns[[0, 1, 2, 3]], axis=1, inplace=True)
+
+        plot[k] = v.groupby('topic').sum().plot(kind='bar', figsize=(10, 8))
+        plot[k].set_xticklabels(v.index, rotation=20)
+        print(v.groupby('topic').sum())
+        image = plot[k].get_figure().savefig("new/static/new/images/"+user + '_' + k + '.png')
+        css = '<style>  body {text-align:center;\n} \ntable\n{margin:0px auto;\n}  </style>'
+        heading = '<h2> Subject : ' + k + '</h2>'
+        table = v.groupby('topic').sum().to_html()
+
+        html = ' <div class="image">  <img src = "{% static "new/images/" + user + "_" + k + ".png" + " >  </div>'
+        tag = tag+css+heading+table+html
+    return str(tag)

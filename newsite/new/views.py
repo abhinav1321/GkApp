@@ -6,6 +6,7 @@ import csv
 import json
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+
 import plotly.graph_objects as go
 from django import forms
 from formtools.wizard.views import SessionWizardView
@@ -14,19 +15,24 @@ import datetime
 from .mail import send_otp_mail
 
 
-from .utils import insert_record, id_generator, set_maker, set_maker1, set_maker_for_subject, analysis, otp_generator, otp_verifier
+from .utils import insert_record, id_generator, \
+                    set_maker, set_maker1, set_maker_for_subject, \
+                    analysis, otp_generator, otp_verifier, analyse
 
 
 # Create your views here.
 
 def check_user_logged(request):
     username = ''
+
     if request.session.has_key('username'):
         username = request.session['username']
+
     return username
 
 
 def index(request):
+
     username = ''
     session_variable = ''
 
@@ -43,7 +49,7 @@ def index(request):
     new_list = []
     for i in notification:
         new_list.append(i.notification)
-
+    new_list = new_list[::-1]
     exam = Exams.objects.all()
     body = []
     for e in exam:
@@ -123,13 +129,19 @@ def practice(request):
 def add(request):
     username = check_user_logged(request)
     subject = Subject.objects.all()
+    # 'new_subject'- Do not change variable, sent to template for adding subject
     new_subject = ""
-    # to be added by view add_sub
-    return render(request, 'new/add.html', {'subject': subject, 'new_subject' : new_subject})
+
+    if username == '' or not User.objects.all().filter(**{'username': username})[0].is_superuser:
+
+        return render(request, 'new/add.html', {'username': username, 'subject': subject, 'new_subject': new_subject, 'super_user': 'No'})
+
+    return render(request, 'new/add.html', {'username': username, 'subject': subject, 'new_subject': new_subject, 'super_user': 'Yes'})
 
 
 def add_topic(request):
     username = check_user_logged(request)
+
     subject_id = request.POST.get('subject_id')
     # print(subject_id)
     topic_name = request.POST.get("topic_name")
@@ -140,6 +152,7 @@ def add_topic(request):
         "topicname": topic_name,
     }
     c = insert_record(data, o="topic")
+
     return HttpResponse("done")
 
 
@@ -180,6 +193,7 @@ def add_ques(request):
 
 
 def add_sub(request):
+    username = check_user_logged(request)
     subject = Subject.objects.all()
     new_subject = request.POST.get("Subject")
     data = {
@@ -187,7 +201,6 @@ def add_sub(request):
         "subject_id": id_generator(o="sub", prefix="SU")
     }
     insert_record(data, o="sub")
-    print('jj')
     return render(request, 'new/add.html', {'subject': subject, 'new_subject' : new_subject})
 
 
@@ -205,7 +218,7 @@ def one_view(request):
 
         i = i+1
 
-    return render (request, 'new/one_view.html', {'question': question, 'q_id': q})
+    return render(request, 'new/one_view.html', {'question': question, 'q_id': q})
 
 
 def calculator(answer_list=None):
@@ -230,8 +243,6 @@ def count(request):
 
     result = calculator(answer_list=li[1:-1])
     ques_asked = li[-1]
-    #print(type(ques_asked))
-    #print(ques_asked)
 
     question_list = []
     for q in ques_asked[1].replace("[", "").replace("]", "").split(", "):
@@ -240,8 +251,7 @@ def count(request):
     y = []
     for a in question_list:
         y.append(a["q_id"])
-    #print("y is")
-    #print(y)
+
     if result <= 5:
         review = "Improvement required"
     elif result <= 7:
@@ -292,18 +302,18 @@ def session_demo(request):
         if 'action' in request.GET:
             action = request.GET.get('action')
             if action == 'logout':
-                #print('checkhere')
+
                 if request.session.has_key('username'):
                     request.session.flush()
                 return redirect('sessions')
-        #print('check2')
+
         if 'username' in request.session:
             username = request.session['username']
-            #print("time")
-            #print(request.session.get_expiry_age())  # session lifetime in seconds(from now)
+            
             print(
-                request.session.get_expiry_date())  # datetime.datetime object which represents the moment in time at which the session will expire
-            #print('check3')
+                request.session.get_expiry_date())
+            # datetime.datetime object which represents the moment in time
+            # at which the session will expire
 
     elif request.method == 'POST':
         form_login = FormLogin(request.POST)
@@ -345,7 +355,8 @@ def sign_in(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
-        a = User.objects.all()
+        # a = User.objects.all().filter(**())
+        a=User.objects.all()
         for i in a:
             print(i)
         if user:
@@ -440,7 +451,7 @@ def test_record(username, subject, topic_wise):
         test_id = str(username) + str(random.randint(10000, 99999))
         print(test_id, 'test id')
         data_time = datetime.datetime.now()
-        print(test_id,data_time,'as test id time')
+        print(test_id, data_time, 'as test id time')
         print(topic_wise)
         for k, v in topic_wise.items():
             topic = k
@@ -556,13 +567,27 @@ def user_analysis(request):
     user = check_user_logged(request)
 
     detail = analysis(user)
+    if detail == 'no data':
+        return render(request, 'new/user_analy.html', {
+            'username': user,
+            'detail': detail[0],
+            'sub_list': detail[1],
+            'html_table': detail[2],
+            'data': 'no'
+        }
+                      )
 
     return render(request, 'new/user_analy.html', {
+                                                    'data': 'yes',
                                                     'username': user,
                                                     'detail': detail[0],
                                                     'sub_list': detail[1],
+                                                    'html_table': detail[2],
                                                     }
                   )
+
+    # detail = analyse(user)
+    # return render(request, 'new/user_analysis.html', {'username': user, 'detail': detail})
 
 
 def user_profile(request):

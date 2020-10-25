@@ -43,7 +43,7 @@ height:50px;
     <h1 style="text-align:center;  color:#17a2b8; text-decoration: underline;">{{Subject}} </h1>
     <div class="card bg-info" style="margin-left:auto;margin-right:auto;margin-top:-5px; width:30%; ">
 
-        <h5 class="card-title" >Full Test for {{Subject}}</h5>
+        <p class="card-title" >Full Test: {{Subject}}</p>
         <form method="post" action = "{% url 'full_test'%}">
             {% csrf_token %}
             <input type ='hidden' value='{{Subject}}' name="Subject">
