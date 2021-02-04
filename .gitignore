@@ -4,3 +4,4 @@
 
 #Pyc files
 *.pyc
+.sqlite3
