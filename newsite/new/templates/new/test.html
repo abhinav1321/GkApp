@@ -46,9 +46,7 @@
   <div class="time">Time left = <span id="timer"></span></div>
 
 
-<form id="regForm" action = '/new/full_test_result_calculator' method='post'>
-
-
+<form id="regForm" action = 'full_test_result_calculator' method='post'>
 
 <!-- One "tab" for each step in the form: -->
   {% csrf_token %}
@@ -87,12 +85,7 @@
   {% endfor %}
 </div>
 
-
-
 </form>
-
-
-
 </body>
 
 
@@ -230,10 +223,6 @@ $(document).ready(function(){
 
 });
 
-
-
-
-
 setTimeout(function(){
       $('#regForm').submit();
       alert("response saved and submitted")
@@ -265,10 +254,6 @@ function checkSecond(sec) {
   if (sec < 0) {sec = "59"};
   return sec;
 }
-
-
-
-
 
     var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab

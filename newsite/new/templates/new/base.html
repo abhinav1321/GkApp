@@ -70,11 +70,9 @@
 
       {% else %}
 
-      <li> Logged in As <a href="user_analysis">{{username}}</a>  </li>
+      <li> Logged in As <a href="user_analysis_new" style="color:white;">{{username}}</a>  </li>
       <ul></ul>
-    <input type="button" onclick= 'location.href = "/new/?action=logout";' value="Sign Out"  />
-
-
+    <input type="button" onclick= 'location.href = "/?action=logout";' value="Sign Out"  />
 
     {% endif %}
 
@@ -83,21 +81,17 @@
 </nav>
 
 
-
-
-
-
-<div class="modal" tabindex="-1" role="dialog" id="mymodal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
+<div class="modal " tabindex="-1" role="dialog" id="mymodal">
+  <div class="modal-dialog" role="document" >
+    <div class="modal-content ">
+      <div class="modal-header bg-info">
         <h5 class="modal-title"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action=/new/ method="post">
+        <form action="/signIn" method="post">
           {% csrf_token %}
         <h2 class="text-center">Log in</h2>
         <div class="form-group">
@@ -115,7 +109,7 @@
         </div>
     </form>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer bg-info">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -181,7 +175,7 @@
 
     $.ajax({
       type:'POST',
-      url:'/new/sign_up',
+      url:'sign_up',
       data:{
               username:$('#username').val(),
               email:$('#email').val(),
@@ -268,7 +262,7 @@
     <a href=http://localhost:8000/new> Mysite.com</a>
     <div>
     Important Links
-      <li href="/new/"> Home </li>
+      <li href=""> Home </li>
 
     </div>
 

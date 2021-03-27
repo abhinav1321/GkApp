@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+
+{% extends 'new/base.html' %}
+
+
+
+{% block content %}
+
+<div style="margin-top:100px;">
+<form method="post" action="login_process">
+    {% csrf_token %}
+    <input type="text" name="username">
+    <input type="text" name="password">
+    <input type="submit" value="Login">
+</form>
+
+
+{% endblock %}

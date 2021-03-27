@@ -30,12 +30,8 @@
 </form>
 
 
-<form action="{% url 'plot' %}" method="post" >
-    {% csrf_token %}
-    <input type="hidden" value={{result}} name="result" >
-    <input type="submit" value="Get">
+<img src="http://localhost:8000/plot?score={{result}}" >
 
-</form>
 
 
 
@@ -64,10 +60,18 @@
           bars: 'horizontal' // Required for Material Bar Charts.
         };
 
+
+
         var chart = new google.charts.Bar(document.getElementById('barchart_material'));
 
         chart.draw(data, google.charts.Bar.convertOptions(options));
+
+      var chart = new google.visualization.PieChart(document.getElementById('barchart_material'));
+        chart.draw(data, options);
+
       }
+
+
     </script>
   </head>
   <body>

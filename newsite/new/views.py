@@ -1,25 +1,30 @@
 from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponse, JsonResponse
-from .models import Notifications, Exams, Subject, Topic, Questions
+from .models import Notifications, Exams, Subject, Topic, Questions, ExtendedUser
 import codecs
 import csv
 import json
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 import plotly.graph_objects as go
 from django import forms
-from formtools.wizard.views import SessionWizardView
-import random
-import datetime
-from .mail import send_otp_mail
+from .models import TestRecord
+from django.views.generic.base import View
 
-
-from .utils import insert_record, id_generator, set_maker, set_maker1, set_maker_for_subject, analysis, otp_generator, otp_verifier
+from .utils import insert_record, id_generator, set_maker,  set_maker_for_subject, analysis, otp_generator, otp_verifier
+from .utils import calculator, test_record, record_questions_in_test_record, analysis1, overall_details, get_subject_list
+from .utils import topics_user_analysis, subject_details, topic_details
 
 
 # Create your views here.
-
 def check_user_logged(request):
+    """
+    Checks if user is logged in
+    :param request:
+    :return: username if user logged in, else ''
+    """
     username = ''
     if request.session.has_key('username'):
         username = request.session['username']
@@ -27,6 +32,12 @@ def check_user_logged(request):
 
 
 def index(request):
+    """
+
+    :param request:
+    :return: an HTML render with username, notifications,
+                                exams, subjects
+    """
     username = ''
     session_variable = ''
 
@@ -34,27 +45,15 @@ def index(request):
         username = sign_in(request)[0]
         session_variable = sign_in(request)[1]
     if request.method == 'GET':
-        print('here get')
         sign_in(request)
-
     username = check_user_logged(request)
 
-    notification = Notifications.objects.all()
-    new_list = []
-    for i in notification:
-        new_list.append(i.notification)
+    notification = list(Notifications.objects.all())
+    exam_list = list(Exams.objects.all())
+    sub = list(Subject.objects.all())
 
-    exam = Exams.objects.all()
-    body = []
-    for e in exam:
-        body.append(e.exam_name)
-    subject = Subject.objects.all()
-    sub = []
-    for s in subject:
-        sub.append(s.subject_name)
-    print(sub)
-    return render(request, 'new/index.html', {'notification': new_list,
-                                              'exam': body,
+    return render(request, 'new/index.html', {'notification': notification,
+                                              'exam': exam_list,
                                               'subject': sub,
                                               'username': username,
 
@@ -63,31 +62,36 @@ def index(request):
 
 
 def exam(request):
+    """
+    Method : Post, retrieves data for requested exam object
+    :param request:
+    :return: HTML render of exam-body, notifications, session_variable, username
+    """
     username = check_user_logged(request)
 
-    notification = Notifications.objects.all()
-    new_list = []
-    for i in notification:
-        new_list.append(i.notification)
+    notification = list(Notifications.objects.all())
     exam_name = request.POST.get('exam_name')
     session_variable = request.POST.get('session_variable')
-    print(type(session_variable))
-
     exam_obj = Exams.objects.get(**{"exam_name": exam_name})
     body = exam_obj.body
 
-    return render(request, 'new/exam.html', {'body': body, 'notification': new_list,
+    return render(request, 'new/exam.html', {'body': body, 'notification': notification,
                                              'session_variable': session_variable,
                                              'username': username
                                              })
 
 
 def get_topic(request):
+    """
+    gets topic details for a particular subject
+    :param request:
+    :return: HTML render with variables:- filtered topics, subject, username
+    """
+
     username = check_user_logged(request)
     subject = request.POST.get('Subject_name')
     sub_obj = Subject.objects.all().filter(**{'subject_name': subject})
 
-    subject_id = sub_obj[0].subject_id
     for i in sub_obj:
         topic = Topic.objects.all().filter(**{'subject_id': i})
 
@@ -95,43 +99,61 @@ def get_topic(request):
 
 
 def practice(request):
+    """
+    returns random questions for a Practice session
+
+    :param request:
+    :return: HTML render
+    """
     username = check_user_logged(request)
     topic_name = request.POST.get('topicname')
     topic_object = Topic.objects.all().filter(**{'topicname': topic_name})
-    # print(topic_object[0].topic_id)
-    questions = set_maker1(topic_object[0].topic_id)
-    q=[]
+    questions = set_maker(topic_object[0].topic_id)
+    subject = topic_object[0].subject_id
+    q = []
     for ques in questions:
         i = 0
+        q.append({"q_id": ques.q_id})
+        i += 1
 
-        q.append({
-            "q_id": ques.q_id,
-        }
-        )
+    test_obj = test_record(username, subject, topic=topic_object[0], test_type="S")
+    print('taken test obj, semding forward', test_obj)
+    record_questions_in_test_record(test_obj, question_list=q)
 
-        i = i + 1
-    number_of_questions = len(q)
-
-    return render(request, 'new/question_set.html', {'questions': questions,
-                                                    'q_id': q,
-                                                    'len': number_of_questions,
-                                                    'topicname': topic_name,
-                                                    'username': username
+    return render(request, 'new/question_set.html', {
+                                                        'questions': questions,
+                                                        'q_id': q,
+                                                        'len': len(q),
+                                                        'topicname': topic_name,
+                                                        'username': username,
+                                                        'test_obj': test_obj.id
                                                     })
 
 
+@login_required(login_url='login_view')
+@staff_member_required
 def add(request):
+    """
+    To Add new data directly, Admin only access
+    :param request:
+    :return: HTML render, subject_query, username
+    """
     username = check_user_logged(request)
     subject = Subject.objects.all()
     new_subject = ""
-    # to be added by view add_sub
-    return render(request, 'new/add.html', {'subject': subject, 'new_subject' : new_subject})
+    return render(request, 'new/add.html', {'subject': subject, 'new_subject': new_subject, 'username': username})
 
 
+@login_required(login_url='login_view')
+@staff_member_required
 def add_topic(request):
+    """
+    Admin only, used to insert a new Topic
+    :param request:
+    :return: HttpResponse
+    """
     username = check_user_logged(request)
     subject_id = request.POST.get('subject_id')
-    # print(subject_id)
     topic_name = request.POST.get("topic_name")
     subject = Subject.objects.get(**{"subject_id": subject_id})
     data = {
@@ -143,7 +165,14 @@ def add_topic(request):
     return HttpResponse("done")
 
 
+@login_required(login_url='login_view')
+@staff_member_required
 def add_ques(request):
+    """
+    used to read the uploaded file for questions
+    :param request:
+    :return: HttpResponse done, if success
+    """
     file = request.FILES['fileup']
     rows = []
     if file.name.endswith(".csv"):
@@ -168,18 +197,20 @@ def add_ques(request):
                 "topic_id": topic_id
             }
 
-            # print(to_insert)
-
             if insert_record(data=to_insert, o="question"):
                 row_count = row_count + 1
-
-        #        if rows[0] == ['q_id', 'q_text', 'a', 'b', 'c', 'd', 'answer']:
-        #            print('yes')
 
         return HttpResponse("done")
 
 
+@login_required(login_url='login_view')
+@staff_member_required
 def add_sub(request):
+    """
+    adding a new subject
+    :param request:
+    :return: HTML response, with subject and new_subject
+    """
     subject = Subject.objects.all()
     new_subject = request.POST.get("Subject")
     data = {
@@ -187,69 +218,31 @@ def add_sub(request):
         "subject_id": id_generator(o="sub", prefix="SU")
     }
     insert_record(data, o="sub")
-    print('jj')
-    return render(request, 'new/add.html', {'subject': subject, 'new_subject' : new_subject})
+    return render(request, 'new/add.html', {'subject': subject, 'new_subject': new_subject})
 
 
-def one_view(request):
-
-    question = set_maker()
-    q = []
-    for ques in question:
-        i = 0
-
-        q.append({
-            "q_id": ques.q_id,
-        }
-        )
-
-        i = i+1
-
-    return render (request, 'new/one_view.html', {'question': question, 'q_id': q})
-
-
-def calculator(answer_list=None):
-    count = 0
-    for question in answer_list:
-        obj = Questions.objects.filter(**{"q_id": question[0]})
-
-        if question[1].lower() == obj[0].answer.lower():
-            count += 1
-            print(question[1], obj[0].answer, count)
-
-    return count
-
-
-def count(request):
-    reply = request.POST.copy()
-    x = reply.items()
-
-    li = []
-    for element in x:
-       li.append(element)
-
-    result = calculator(answer_list=li[1:-1])
-    ques_asked = li[-1]
-    #print(type(ques_asked))
-    #print(ques_asked)
-
-    question_list = []
-    for q in ques_asked[1].replace("[", "").replace("]", "").split(", "):
-        question_list.append(eval(q))
-
-    y = []
-    for a in question_list:
-        y.append(a["q_id"])
-    #print("y is")
-    #print(y)
-    if result <= 5:
-        review = "Improvement required"
-    elif result <= 7:
-        review = "GOOD Keep Going!"
-    else:
-        review = "WAaH bde log!"
-
-    return render(request, 'new/result.html', {'review': review, 'result': result, 'id': y})
+def test_result(request):
+    """
+    This views does:
+            1, calculate score with calculate function
+            2.
+    :param request:post request
+    :return: Result
+    """
+    request_data = request.POST.copy()
+    print(request_data)
+    data = dict(request_data.items())
+    del data['csrfmiddlewaretoken']
+    questions = data.pop('question')
+    test_obj = TestRecord.objects.get(pk=data.pop('test_obj'))
+    print(test_obj, 'as test object post repsonse')
+    d = dict(data)
+    answer_list = []
+    for k, v in d.items():
+        answer_list.append((k, v))
+    result = calculator(answer_list, test_obj)
+    print(result)
+    return render(request, 'new/test_result.html', {'result': result})
 
 
 def export_csv(request):
@@ -272,9 +265,13 @@ def export_csv(request):
 
 
 def plot(request):
-    fig = go.Figure(data=go.Bar(y=[2, 3, 1]))
-    fig.write_html('first_figure.html')
-    return render(request, 'new/first_figure.html')
+    data = request.GET.get('score')
+    fig = go.Figure(go.Bar(
+        x=[10, 6, int(data)],
+        y=['giraffes', 'orangutans', 'monkeys'],
+        orientation='h'))
+    fig.write_image("records/fig1.png")
+    return HttpResponse('ok')
 
 
 class FormLogin(forms.Form):
@@ -282,141 +279,69 @@ class FormLogin(forms.Form):
     password = forms.CharField(label=("Password"), widget=forms.PasswordInput, required=True)
 
 
-def session_demo(request):
-    time = None
-    username = None  # default value
-    form_login = FormLogin()
-    #print("check1")
-    if request.method == 'GET':
+def login_view(request):
+    return render(request, 'new/login_page.html')
 
-        if 'action' in request.GET:
-            action = request.GET.get('action')
-            if action == 'logout':
-                #print('checkhere')
-                if request.session.has_key('username'):
-                    request.session.flush()
-                return redirect('sessions')
-        #print('check2')
-        if 'username' in request.session:
-            username = request.session['username']
-            #print("time")
-            #print(request.session.get_expiry_age())  # session lifetime in seconds(from now)
-            print(
-                request.session.get_expiry_date())  # datetime.datetime object which represents the moment in time at which the session will expire
-            #print('check3')
 
-    elif request.method == 'POST':
-        form_login = FormLogin(request.POST)
-        if form_login.is_valid():
-            print('check4')
-            username = form_login.cleaned_data['username']
-            password = form_login.cleaned_data['password']
-            if username.strip() == 'youtuber' and password.strip() == 'secret':
-                request.session.set_expiry(300)
-                request.session['username'] = username
-                time = request.session.get_expiry_date()
-            else:
-                username = None
-                time = None
-
-    return render(request, 'new/sessions.html', {
-        'demo_title': 'Sessions in Django',
-        'form': form_login,
-        'username': username,
-        'time': time
-    })
+def login_process(request):
+    sign_in(request)
+    return redirect('index')
 
 
 def sign_in(request):
-    time = None
     username = None
     if request.method == 'GET':
-        print('check 1')
         if 'action' in request.GET:
-
             if request.GET['action'] == 'logout':
-                print('here reached')
                 if request.session.has_key('username'):
                     request.session.flush()
-                    # request.session.set_expiry(0)
+                    logout(request)
                     return redirect('/')
 
     elif request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
-        a = User.objects.all()
-        for i in a:
-            print(i)
-        if user:
-            sess = request.session
-            sess['username'] = username
-            sess.set_expiry(900)
+        try:
+            if user:
+                ExtendedUser.objects.get(user=user)
+                login(request, user)
+                sess = request.session
+                sess['username'] = username
+                sess.set_expiry(900)
 
-            # request.session.set_expiry(900)
-            # request.session['username']=username
-            print('sess is ', sess)
-            return username.upper(), sess
-        else:
-            return 'guest', ''
+                # return username.upper(), sess
+                return redirect('index')
+            else:
+                return redirect('incorrect_username_error')
+        except Exception as e:
+            print('Exception ', e)
+            return redirect('internal_server_error')
 
 
 def sign_up(request):
-    if request.is_ajax():
-        print('yes ajax')
+
     username = request.POST.get('username')
     email = request.POST.get('email')
     password = request.POST.get('password')
-    print(request.POST.copy())
-    print(email)
     try:
         s = User.objects.create_user(username, email, password)
-        print('here', str(s))
+        if s:
+            ExtendedUser.objects.create(user=s)
+
         json_response = {'if_success': 1, 'comment': str(s)}
     except Exception as e:
-        print(e)
         json_response = {'if_success': 0, 'comment': str(e)}
     return JsonResponse(json_response)
-
-
-# not yet complete
-class FormWizardView(SessionWizardView):
-
-    template_name = 'new/wizard.html'
-
-    def done(self, form_list, **kwargs):
-        form_data = process_form_data(form_list)
-        return render_to_response('new/done.html', {'form_data': form_data})
-
-
-def process_form_data(form_list):
-    form_data = [form.cleaned_data for form in form_list]
-    return form_data
 
 
 def jquery_step(request):
     return render(request, 'new/jquery.html')
 
 
-def new_ques_set(request):
-    questions = set_maker()
-    q = []
-    for ques in questions:
-        i = 0
-
-        q.append({
-            "q_id": ques.q_id,
-        }
-        )
-
-        i = i + 1
-    return render(request, 'new/question_set.html', {'questions': questions, 'q_id': q})
-
-
 def full_test(request):
     username = check_user_logged(request)
     subject_name = request.POST.get('Subject')
-    print(len(subject_name))
     sub_obj = Subject.objects.all().filter(**{'subject_name': subject_name})
     subject_id = sub_obj[0].subject_id
     q_id = []
@@ -425,67 +350,27 @@ def full_test(request):
         for s in set:
             q_id.append(s['q_id'])
     if set == 'questions less that 30':
-        print('yes')
-
-        return HttpResponse('Some error came, Please go to home page')
+        return HttpResponse('Could not create your test, Please go to home page')
     else:
-        return render(request, 'new/test.html', {'username': username,'set': set, 'q_id': q_id, 'subject': subject_name})
+        return render(request, 'new/test.html', {'username': username, 'set': set, 'q_id': q_id, 'subject': subject_name})
 
-
-def test_record(username, subject, topic_wise):
-    with open('records/test_record.csv', 'a') as file:
-        writer = csv.writer(file)
-        print('test entrtieioifhdoi')
-        print('dskufh')
-        test_id = str(username) + str(random.randint(10000, 99999))
-        print(test_id, 'test id')
-        data_time = datetime.datetime.now()
-        print(test_id,data_time,'as test id time')
-        print(topic_wise)
-        for k, v in topic_wise.items():
-            topic = k
-            ques_correct = v[1]
-            ques_incorrect = v[2]
-            ques_unattempted = v[3]
-            ques_attempted = ques_correct + ques_incorrect
-            ques_asked = ques_attempted + ques_unattempted
-            score_in_the_topic = v[0]
-            writer.writerow((test_id, data_time, username, subject,
-                             topic,
-                             ques_asked,
-                             ques_attempted,
-                             ques_correct,
-                             ques_incorrect,
-                             ques_unattempted,
-                             score_in_the_topic))
-        file.close()
-    with open('records/test_record.csv', 'r+') as file2:
-        reader = csv.reader(file2)
-        for r in reader:
-            print(r)
-        file2.close()
 
 def full_test_result_calculator(request):
     username = check_user_logged(request)
     reply = request.POST.copy()
-    print(reply)
     reply_list = []
     for element in reply.items():
         reply_list.append(element)
     answered_list = reply_list[1:-2]
     asked_list = reply_list[-2][1][1:-1].split(',')
     subject_name = reply_list[-1][1]
-    print(subject_name)
-    print(answered_list)
     combined_list = []
 
     for n in asked_list:
-        # print('check for ',n)
         co = 0
         ans = ''
 
         for m in answered_list:
-            # print(m[0])
             if int(m[0]) == int(n):
                 co = 1
                 ans = m[1]
@@ -554,17 +439,23 @@ def full_test_result_calculator(request):
 
 def user_analysis(request):
     user = check_user_logged(request)
-
-    detail = analysis(user)
-
+    # detail = analysis(user)
+    detail = analysis1(user)
+    print(detail)
     return render(request, 'new/user_analy.html', {
                                                     'username': user,
                                                     'detail': detail[0],
                                                     'sub_list': detail[1],
-                                                    }
-                  )
+                                                    })
 
 
+@login_required(login_url='login_view')
+def user_analysis_new(request):
+    user = check_user_logged(request)
+    return render(request, 'new/user_analysis.html', {'username': user})
+
+
+@login_required(login_url='login_view')
 def user_profile(request):
     user = check_user_logged(request)
     verified = 'not_verified'
@@ -584,19 +475,18 @@ def user_profile(request):
                                                 })
 
 
+@login_required(login_url='login_view')
 def verify(request):
     user = check_user_logged(request)
     verified = 'otp_failed'
     if request.method == 'POST':
         otp = request.POST.get('otp')
         otp_entry = request.POST.get('otp_entry')
-        # print(request.POST.get('attempt'))
         attempt = int(request.POST.get('attempt'))
         print(otp, otp_entry, attempt)
 
         if attempt < 3:
             verifier = otp_verifier(otp, otp_entry, user, verified)
-            # print(verifier[1])
             verified = verifier[0]
             attempt = verifier[1]
             return render(request, 'new/profile.html', {'verified': verified,
@@ -617,3 +507,75 @@ def verify(request):
                                                     'otp_entry': otp_entry,
                                                     'attempt': 1
                                                     })
+
+
+def get_overall_details_for_user_analysis(request):
+    username = request.POST.get('username')
+    total_questions, attempted, correct, accuracy = overall_details(username)
+    data = {
+                'total_questions': str(total_questions),
+                'attempted': str(attempted),
+                'correct': str(correct),
+                'accuracy': str(accuracy)
+                }
+    print(data)
+    return JsonResponse(data)
+
+
+def get_subjects_for_user_analysis(request):
+    username = request.POST.get('username')
+    print(username, 'subject_list_ua')
+
+    print('username', username)
+    subject_list = get_subject_list(username)
+    return JsonResponse({'data': subject_list})
+
+
+def get_subject_details_for_user_analysis(request):
+    username = request.POST.get('username')
+    subject_id = request.POST.get('subject')
+    print(username, subject_id, 'subject_detail_ua')
+    total_questions, attempted, correct, accuracy = subject_details(username, subject_id)
+    data = {
+        'total_questions': str(total_questions),
+        'attempted': str(attempted),
+        'correct': str(correct),
+        'accuracy': str(accuracy)
+    }
+    print('retiurning data')
+    return JsonResponse({subject_id: data})
+
+
+def get_topics_for_user_analysis(request):
+    username = request.POST.get('username')
+    subject = request.POST.get('subject')
+    topics = topics_user_analysis(username, subject)
+    return JsonResponse({'data': topics})
+
+
+def get_topics_details_for_user_analysis(request):
+    username = request.POST.get('username')
+    subject_id = request.POST.get('subject')
+    topic = request.POST.get('topic')
+    topic_data = topic_details(username, subject_id, topic)
+    return JsonResponse({'data': topic_data})
+
+
+class ErrorView(View):
+    """
+    Generic View for Errors,
+        To customize, Go to urls.py , create new url with variable "error_name" inside
+        e.g. => path('your_error_url', views.ErrorView.as_view(error_name="error 402"), name='your_error_url'),
+    """
+    error_name = "Oops! some error"
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'new/error_page.html', {'error': self.error_name})
+
+
+def error_404(request, exception):
+    return render(request, 'new/error_page.html', {'error': "Error 404"})
+
+
+def error_500(request):
+    return render(request, 'new/error_page.html', {'error': "Error 500"})

@@ -62,7 +62,7 @@ body{
 {% load static %}
 
 <!--
-<a href = "{% url 'new_ques_set'%}">try an exam</a>
+
 {% if username  == ''  %}
 <div style = "justify-content:center;display:flex; align-items:center;"></div>
 
@@ -88,7 +88,7 @@ body{
 
 
         {% for e in exam %}
-          <form method="POST" id="{{e}}" action = "/new/exam">
+          <form method="POST" id="{{e}}" action = "/exam">
             <div class="card bg-info "  style="width: 10rem;"  >
 
               <img class="card-img-top" src="{% static 'new/images/' %}{{e}}.png" alt="Card image cap">
@@ -125,7 +125,7 @@ body{
 
 </div>
 
-<div style = "justify-content:center;display:flex; align-items:center;"><a class='button' href= "{% url 'new_ques_set' %}" >   Try An Exam </a></div>
+
 
 <div class="container" id="contains_subject" style="margin-top: 50px;">
 
