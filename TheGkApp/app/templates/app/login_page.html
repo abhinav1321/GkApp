@@ -1,0 +1,17 @@
+
+{% extends 'app/base.html' %}
+
+
+
+{% block content %}
+
+<div style="margin-top:100px;">
+<form method="post" action="login_process">
+    {% csrf_token %}
+    <input type="text" name="username">
+    <input type="text" name="password">
+    <input type="submit" value="Login">
+</form>
+
+
+{% endblock %}

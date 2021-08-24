@@ -1,0 +1,81 @@
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.js"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+{% extends 'app/base.html' %}
+
+
+
+{% block content %}
+
+
+<h1 style="color:blue"> {{review}} </h1>
+
+<h4>Score : {{result}}/10</h4>
+
+<p></p>
+<p></p>
+<p></p>
+
+<div>
+<h4> Download Test Questions </h4>
+
+
+    <h6> As CSV file </h6>
+<form action="export_csv?test_id={{test_id}}" method='get' >
+    <input type="submit" value="Download" >
+</form>
+
+        <h6> As PDF file </h6>
+<form action="export_pdf?test_id={{test_id}}" method='get' >
+    <input type="submit" value="Download" >
+</form>
+
+</div>
+
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+        var result = {{result}}
+        console.log(result)
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+
+          ['X', 'y' ],
+          ['Total', 10 ],
+          ['Obtained',result ],
+          ['Required',6],
+        ]);
+
+        var options = {
+          chart: {
+            title: 'Stats',
+            subtitle: 'English Test',
+          },
+          bars: 'horizontal' // Required for Material Bar Charts.
+        };
+
+
+
+        var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+
+      var chart = new google.visualization.PieChart(document.getElementById('barchart_material'));
+        chart.draw(data, options);
+
+      }
+
+
+    </script>
+  </head>
+  <body>
+    <div id="barchart_material" style="width: 900px; height: 500px;"></div>
+  </body>
+{% endblock %}

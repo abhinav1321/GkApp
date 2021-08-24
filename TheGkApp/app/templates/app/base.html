@@ -1,0 +1,288 @@
+
+<head>
+<script src="jquery-3.4.1.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+ <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"> </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+</head>
+<style>
+  .btn{
+    margin: 0px 10px 0px 10px;
+  }
+  h5.card-title {
+    height: 45px;
+}
+</style>
+
+
+
+
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-info">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <a class="navbar-brand" href="{% url 'index' %}">Home</a>
+    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li>
+    </ul>
+
+
+
+    {% if not username%}
+
+    <button class="btn btn-success" data-target="#mymodal" data-toggle="modal"> Sign In
+
+    </button>
+
+       <button class="btn btn-danger "  data-target="#registerUser" data-toggle="modal"> Sign Up
+    	<div class="modal"></div>
+    </button>
+
+
+
+{% elif username == 'guest' %}
+
+    <button class="btn btn-success" data-target="#mymodal" data-toggle="modal"> Sign In
+
+    </button>
+<button class="btn btn-danger "  data-target="#registerUser" data-toggle="modal"> Sign Up
+    	<div class="modal"></div>
+    </button>
+
+
+      {% else %}
+
+      <li> Logged in As <a href="user_analysis_new" style="color:white;">{{username}}</a>  </li>
+      <ul></ul>
+    <input type="button" onclick= 'location.href = "/?action=logout";' value="Sign Out"  />
+
+    {% endif %}
+
+
+  </div>
+</nav>
+
+
+<div class="modal " tabindex="-1" role="dialog" id="mymodal">
+  <div class="modal-dialog" role="document" >
+    <div class="modal-content ">
+      <div class="modal-header bg-info">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/signIn" method="post">
+          {% csrf_token %}
+        <h2 class="text-center">Log in</h2>
+        <div class="form-group">
+            <input type="text" class="form-control"  name='username' placeholder="Username" required="required">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        </div>
+        <div class="clearfix">
+            <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>
+            <a href="#" class="pull-right">Forgot Password?</a>
+        </div>
+    </form>
+      </div>
+      <div class="modal-footer bg-info">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="registerUser">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" id="closeid" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form name="submituser"  id='submituser' method='POST' >
+          <input type=hidden name='csrf_token' value='{% csrf_token %}'>
+        <h2 class="text-center">Create User</h2>
+        <div class="form-group">
+            <input type="text" class="form-control" id='username' name='username' placeholder="Username" required="required">
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" id="email" name="email" placeholder="email" required="required">
+        </div>
+
+        <div class="form-group">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block" >Create</button>
+        </div>
+
+    </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% if username == 'guest'  %}
+<script>
+  alert('Username or Password incorrect, Please try again')
+</script>
+
+{% endif %}
+
+<script>
+
+  $('#submituser').on('submit',function(e){
+    var us=$('#username').val();
+    console.log(us);
+    e.preventDefault();
+
+    
+
+    $.ajax({
+      type:'POST',
+      url:'sign_up',
+      data:{
+              username:$('#username').val(),
+              email:$('#email').val(),
+              password:$('#password').val(),
+              csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+
+      },
+
+      
+      success:function(data){
+          
+          var close = document.getElementById("closeid");
+          console.log(close);
+          close.click();
+          
+
+          if (data['if_success'] == 1) {  alert('User '+String(data['comment']+' is Created Successfully')  ) }
+          if (data['if_success'] == 0) { "Sorry , Failed to Create "+ alert(String(data['comment'])+'=>  User is not created ' )  }
+            // var modal1 = document.getElementsByClassName('modal');
+            // console.log(modal1[0]);
+            // modal1[0].modal("hide");
+         
+
+            
+        
+  
+
+
+          
+          }
+          });
+
+
+          
+      });
+
+
+
+   
+
+
+
+
+
+
+
+</script>
+
+
+<script>
+
+
+</script>
+
+
+
+
+
+
+
+
+{% block content %}
+            {% endblock %}
+
+
+
+
+
+<div>
+
+
+
+</div>
+
+
+
+<!-- Footer -->
+<footer class="page-footer bg-info font-small cyan darken-3" style=" width:100%; margin-top:50px;bottom:0; position:relative" >
+
+
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2021 Copyright:
+    <a href='/'> Home Page </a>
+    <div>
+    Important Links
+      <li href=""> Home </li>
+
+    </div>
+
+  </div>
+
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+</body>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+
+
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+ <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"> </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

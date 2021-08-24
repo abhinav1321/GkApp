@@ -1,0 +1,157 @@
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+
+
+<script>
+var csrftoken = '{{csrf_token}}';
+var username  =  '{{username}}';
+</script>
+
+
+<style type="text/css">
+	table, th, td {
+		width: 30%;
+  border: 1px solid black;
+}
+div {
+    margin-top:15px;
+}
+
+
+</style>>
+
+
+{{username}}
+
+<script>
+$.ajax({
+    type: "POST",
+    url: 'overall_details_analysis',
+    data: {
+    	'username' : username,
+    	'csrfmiddlewaretoken':csrftoken,
+    	  },
+    success: function(response){
+        //if request if made successfully then the response represent the data
+
+        //console.log(response, 'overall_details');
+        var table = $("#overall_analysis_table")
+        $.each (response, function (k)
+         {
+        table.append("<tr><th>" + k + "</th><td>" + response[k] + "</td></tr>");
+            });
+
+}});
+</script>
+
+<script>
+
+function GetSubjectList() {
+return new Promise((resolve, reject) => {
+ $.ajax({
+    type: "POST",
+    url: 'subject_list_user_analysis',
+    data: {
+    	'username' : username,
+    	'csrfmiddlewaretoken':csrftoken,
+    	  },
+    success: function(response){
+        //if request if made successfully then the response represent the data
+        var subjects = response['data'];
+        resolve(subjects);
+        var subject_div = $('#subject_wise_analysis')
+        $.each (subjects, function (k)
+         {
+        subject_div.append("<div id=" + k + " name=" + subjects[k].replace(/[- )(]/g,'')+
+                    " <h3> "+subjects[k]+"</h3 > </div>");
+            });
+    },
+    error : function(error){
+    reject(error);
+    },
+});
+})}
+
+
+function GetSubjectData(subjects) {
+
+	return new Promise((resolve, reject) => {
+
+		for (var key in subjects) {
+			console.log(key, subjects[key], 'It will show different subjects as per loop');
+					$.ajax({
+					    type: "POST",
+					    url: 'subject_details_user_analysis',
+					    data: {
+					    	'username' : username,
+					    	'subject': key,
+					    	'csrfmiddlewaretoken':csrftoken,
+					    	  },
+
+					    success: function(response){
+					        for (var k in response) {
+					        var table_subject_wise = $("#"+k)
+					        $.each (response[k], function (i)
+					         {
+					        table_subject_wise.append("<tr><th>" + i + "</th><td>" + response[k][i] + "</td></tr>");
+					            });
+					    }
+					        //if request if made successfully then the response represent the data
+					    },
+					    error : function(error){
+					    	console.log(error);
+					    reject(error);
+					    },
+
+					});
+					
+		}
+
+	})
+}
+
+
+GetSubjectList()
+.then((data) => {
+	
+	GetSubjectData(data);
+
+ } )
+
+.catch((error) => {
+    console.log(error)
+  })
+
+</script>
+
+  <div class="verification_div" style="text-align:center; margin-top:30px; padding:30px; margin-bottom:30px;">
+<iframe src="user_profile">
+</iframe>
+  </div>
+
+
+
+<div id="overall_analysis" style="margin-top:100px;">
+   <h2> Overall Analysis </h2>
+   <table  style="width:30%; border: 1px solid black; " id="overall_analysis_table">
+
+   </table>
+</div>
+
+<div id="subject_wise_analysis">
+    <h2>Subject Wise Analysis </h2>
+</div>
+<div> </div>
+
+
+
+{% endblock %}
