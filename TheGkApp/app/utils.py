@@ -47,15 +47,12 @@ def insert_record(data, o):
     :return: variable c (created) , True/False
     """
     obj = MODEL_OBJ[o]
-    print(obj, 'if ques')
     c = False
     try:
         if o == 'question':
             object = obj.objects.create(**data)
-            print(object, 'object')
         else:
             o1, c = obj.objects.get_or_create(**data)
-            print(o1, c)
     except Exception as e:
         return None
     return c
@@ -74,19 +71,13 @@ def set_maker(topic_id):
     return q
 
 
-def calculator(answer_list=None, test_obj=None):
-    """
-
-    :param answer_list:
-    :param test_obj:
-    :return:
-    """
+def calculate_short_test(test_obj, answer_list):
     count = 0
     for answer in answer_list:
         question_id, response = answer[0], answer[1]
         try:
             correct_or_incorrect = False
-            obj = Questions.objects.filter(**{"q_id": question_id})[0]
+            obj = Questions.objects.filter(**{"id": question_id})[0]
             if response.lower() == obj.answer.lower():
                 correct_or_incorrect = True
                 count += 1
@@ -99,6 +90,55 @@ def calculator(answer_list=None, test_obj=None):
     return count
 
 
+def calculate_full_test(test_obj, answer_list):
+    for answer in answer_list:
+        question_id, response = answer[0], answer[1]
+        correct_or_incorrect = False
+        obj = Questions.objects.filter(**{"id": question_id})[0]
+        if response.lower() == obj.answer.lower():
+            correct_or_incorrect = True
+        if test_obj:
+            test_question_obj = TestQuestions.objects.filter(test=test_obj, question_id=obj)
+            test_question_obj.update(correct_or_incorrect=correct_or_incorrect, attempted=True)
+
+    test_ques = TestQuestions.objects.filter(test=test_obj)
+    result = {}
+    for tq in test_ques:
+        attempted = 0
+        if tq.correct_or_incorrect:
+            correct = 1
+        else:
+            correct = 0
+        if tq.attempted:
+            attempted = 1
+        if tq.question_id.topic_id.topicname not in result.keys():
+
+            result[tq.question_id.topic_id.topicname] = {
+                'questions_asked': 1,
+                'correct': correct,
+                'attempted': attempted
+            }
+        else:
+            result[tq.question_id.topic_id.topicname]['correct'] += correct
+            result[tq.question_id.topic_id.topicname]['questions_asked'] += 1
+            result[tq.question_id.topic_id.topicname]['attempted'] += attempted
+    return result
+
+
+def calculator(answer_list=None, test_obj=None):
+    """
+
+    :param answer_list: list of answers responded
+    :param test_obj: TestRecord object
+    :return:
+    """
+    if test_obj and test_obj.test_type == 'S':
+        return calculate_short_test(test_obj=test_obj, answer_list=answer_list)
+
+    elif test_obj and test_obj.test_type == 'F':
+        return calculate_full_test(test_obj=test_obj, answer_list=answer_list)
+
+
 def set_maker_for_subject(subject_id):
     """
     Making set of 30 questions for a subject Quiz
@@ -108,32 +148,42 @@ def set_maker_for_subject(subject_id):
     q_set = []
     q_list = []
     sum = 0
-    topic = Topic.objects.filter(subject_id=Subject.objects.filter(subject_id=subject_id)[0])
-    for t in topic:
-        question_set = Questions.objects.filter(topic_id=Topic.objects.filter(topic_id=t.topic_id)[0])
-        if len(question_set) > 0:
-            q_set.append((question_set, t.topic_id, len(question_set)))
-    for q in q_set:
-        sum = sum + (q[2])
-    if sum > 30:
-        for q_item in q_set:
-            for question in q_item[0]:
-                q_list.append({
-                                'q_id': question.q_id,
-                                'q_text': question.q_text,
-                                'a': question.a,
-                                'b': question.b,
-                                'c': question.c,
-                                'd': question.d,
-                                'e': question.e,
-                                'rich': question.q_rich,
-                                'answer': question.answer,
-                                'topic': q_item[1]})
+    final_list = ''
+    question_set = []
+    try:
+        test_record_obj = TestRecord.objects.create(test_type="F", subject=Subject.objects.get(subject_id=subject_id))
+        topic = Topic.objects.filter(subject_id=Subject.objects.filter(subject_id=subject_id)[0])
+        for t in topic:
+            question_set = Questions.objects.filter(topic_id=Topic.objects.filter(topic_id=t.topic_id)[0])
 
-        final_list = random.choices(q_list, k=30)
-    else:
-        final_list = 'questions less that 30'
-    return final_list
+            if len(question_set) > 0:
+                q_set.append((question_set, t.topic_id, len(question_set)))
+        for q in q_set:
+            sum = sum + (q[2])
+        if sum > 30:
+            for q_item in q_set:
+                for question in q_item[0]:
+                    q_list.append({
+                        'id': question.id,
+                        'q_text': question.q_text,
+                        'a': question.a,
+                        'b': question.b,
+                        'c': question.c,
+                        'd': question.d,
+                        'e': question.e,
+                        'rich': question.q_rich,
+                        'answer': question.answer,
+                        'topic': q_item[1]})
+
+            final_list = random.choices(q_list, k=30)
+            record_questions_in_test_record(test_obj=test_record_obj, question_list=final_list)
+            return final_list, test_record_obj.id
+
+        else:
+            return 'questions less that 30', None
+
+    except:
+        pass
 
 
 def analysis(user):
@@ -185,7 +235,7 @@ def record_questions_in_test_record(test_obj, question_list):
         """
     for question in question_list:
         try:
-            question_object = Questions.objects.get(id=question['q_id'])
+            question_object = Questions.objects.get(id=question['id'])
             tq_obj = TestQuestions.objects.create(test=test_obj, question_id=question_object)
 
         except Exception as e:
@@ -340,7 +390,6 @@ def write_test_to_pdf(test_id):
     :param test_id: test_id : type-string
     :return: pdf file location
     """
-    print(test_id, 'test_id')
     test_record_obj = TestRecord.objects.get(pk=test_id)
     test_questions = get_test_questions(test_record_obj)
 
@@ -367,3 +416,98 @@ def write_test_to_pdf(test_id):
         file.write(html_code)
     pdfkit.from_file('records/test_record.html', 'records/test_record.pdf')
     return 'records/test_record.pdf'
+
+
+def create_test(data):
+    if data['test_type'] == 'F' and 'Subject' in data.keys():
+        try:
+            sub_obj = Subject.objects.get(subject_name=data['Subject'])
+            questions = Questions.objects.filter(subject_id=sub_obj)
+
+            if questions.count() >= 30:
+                test_record_data = {'user': None, 'subject': sub_obj, 'test_type': 'F'}
+                question_set = random.choices(questions, k=30)
+                if 'username' in data.keys():
+                    if data['username'] != '':
+                        username = ExtendedUser.objects.get(user=User.objects.get(username=data['username']))
+                        test_record_data['username'] = username
+                test_record_obj = TestRecord.objects.create(**test_record_data)
+
+                for question in question_set:
+                    tq_obj = TestQuestions.objects.create(test=test_record_obj, question_id=question)
+                return test_record_obj.id, question_set
+
+        except Exception as e:
+            print(e)
+
+    if 'test_type' == 'S' and 'topicname' in data.keys():
+        try:
+            topic_obj = Topic.objects.get(topicname=data['topicname'])
+            questions = Questions.objects.filter(topic_id=topic_obj)
+            if questions.count() >= 30:
+                test_record_data = {'user': None, 'topic': topic_obj, 'test_type': 'S'}
+                question_set = random.choices(questions, k=10)
+                if 'username' in data.keys():
+                    if data['username'] != '':
+                        username = ExtendedUser.objects.get(user=User.objects.get(username=data['username']))
+                        test_record_data['username'] = username
+                test_record_obj = TestRecord.objects.create(**test_record_data)
+                for question in question_set:
+                    tq_obj = TestQuestions.objects.create(test=test_record_obj, question_id=question)
+
+                return test_record_obj.id, question_set
+        except Exception as e:
+            print(e)
+
+
+def check_result(data, test_type, test_id):
+    test_obj = TestRecord.objects.get(id=test_id)
+    for question_id, answer in data.items():
+        ques_obj = Questions.objects.get(id=question_id)
+        tqo = TestQuestions.objects.filter(test=test_obj, question_id=ques_obj)[0]
+        if tqo.question_id.answer == answer:
+            tqo.attempted = True
+            tqo.correct_or_incorrect = True
+            tqo.save()
+        else:
+            tqo.attempted = True
+            tqo.save()
+
+    test_ques = TestQuestions.objects.filter(test=test_obj)
+    total, attempted, correct = 0, 0, 0
+    for q in test_ques:
+        if q.attempted:
+            attempted += 1
+        if q.correct_or_incorrect:
+            correct += 1
+        total += 1
+
+    result = {
+                'total': total,
+                'correct': correct,
+                'attempted': attempted,
+                'incorrect': attempted-correct,
+                'score': correct - 0.25*(attempted-correct)
+            }
+    return result
+
+
+def test_details(test_id):
+    test_obj = TestRecord.objects.get(id=test_id)
+    test_ques = TestQuestions.objects.filter(test=test_obj)
+    topics = {}
+    for ques in test_ques:
+
+        topic = ques.question_id.topic_id.topicname
+
+        if topic not in topics.keys():
+            topics[topic] = {'attempted': 0, 'correct': 0, 'total': 1}
+        elif topic in topics.keys():
+            topics[topic]['total'] += 1
+
+            if ques.attempted:
+                topics[topic]['attempted'] += 1
+            if ques.correct_or_incorrect:
+                topics[topic]['correct'] += 1
+
+    return topics

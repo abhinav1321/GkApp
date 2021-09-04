@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponse, JsonResponse
 from .models import Notifications, Exams, Subject, Topic, Questions, ExtendedUser, TestQuestions
 import codecs
-import csv
+import csv, json
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -10,9 +10,9 @@ from django.contrib.admin.views.decorators import staff_member_required
 from .models import TestRecord
 from django.views.generic.base import View
 
-from .utils import insert_record, id_generator, set_maker,  set_maker_for_subject, analysis, write_test_to_pdf
-from .utils import calculator, test_record, record_questions_in_test_record, overall_details, get_subject_list
-from .utils import topics_user_analysis, subject_details, topic_details, otp_creation, otp_verification
+from .utils import insert_record, id_generator, set_maker,  set_maker_for_subject, analysis, write_test_to_pdf, test_details
+from .utils import calculator, test_record, record_questions_in_test_record, overall_details, get_subject_list, check_result
+from .utils import topics_user_analysis, subject_details, topic_details, otp_creation, otp_verification, create_test
 
 
 # Create your views here.
@@ -251,7 +251,8 @@ def test_result(request):
     for k, v in d.items():
         answer_list.append((k, v))
     result = calculator(answer_list, test_obj)
-    return render(request, 'app/test_result.html', {'result': result, 'test_id': test_obj.id})
+    # return HttpResponse(result)
+    return render(request, 'app/test_result.html', {'result': result, 'test_id': test_obj.id, 'username': check_user_logged(request)})
 
 
 def export_csv(request):
@@ -358,99 +359,36 @@ def sign_up(request):
 
 
 def full_test(request):
+    print('fthere')
     username = check_user_logged(request)
     subject_name = request.POST.get('Subject')
-    sub_obj = Subject.objects.all().filter(**{'subject_name': subject_name})
-    subject_id = sub_obj[0].subject_id
+    sub_obj = Subject.objects.get(subject_name= subject_name)
+    subject_id = sub_obj.subject_id
 
-    for s in sub_obj:
-        set = set_maker_for_subject(s.subject_id)
+    question_set, test_id = set_maker_for_subject(subject_id)
 
-    if set == 'questions less that 30':
+
+    if question_set == 'questions less that 30':
         return HttpResponse('Could not create your test, Please go to home page')
     else:
-        return render(request, 'app/test.html', {'username': username, 'set': set, 'subject': subject_name})
+        return render(request, 'app/test.html', {'username': username, 'set': question_set, 'subject': subject_name, 'test_id': test_id})
 
 
-# def full_test_result_calculator(request):
-#     username = check_user_logged(request)
-#     reply = request.POST.copy()
-#     reply_list = []
-#     for element in reply.items():
-#         reply_list.append(element)
-#     answered_list = reply_list[1:-2]
-#     asked_list = reply_list[-2][1][1:-1].split(',')
-#     subject_name = reply_list[-1][1]
-#     combined_list = []
-#
-#     for n in asked_list:
-#         co = 0
-#         ans = ''
-#
-#         for m in answered_list:
-#             if int(m[0]) == int(n):
-#                 co = 1
-#                 ans = m[1]
-#             else:
-#                 pass
-#         if co == 1:
-#             combined_list.append((n, ans , 1))
-#         else:
-#             combined_list.append((n, '', 0))
-#     final_list = []
-#     for c in combined_list:
-#         marks = 0
-#         status = ''
-#         question_obj = Questions.objects.filter(q_id=c[0])
-#         for q in question_obj:
-#             topic = str(q.topic_id)
-#             actual_answer = q.answer
-#             if c[1] == actual_answer:
-#                 marks = 1
-#                 status = 'correct'
-#             elif c[1] == '':
-#                 marks = 0
-#                 status = 'unattempted'
-#             else:
-#                 marks = (-1*(1/4))
-#                 status = 'incorrect'
-#         ques_tuple = (c[0], status, marks, topic)
-#         final_list.append(ques_tuple)
-#
-#     final_score = 0
-#     topic_wise = {}
-#     for item in final_list:
-#         final_score = float(final_score+float(item[2]))
-#     for item in final_list:
-#         correct, incorrect, unattempted = 0, 0, 0
-#         if item[1] == 'correct':
-#             correct = 1
-#         elif item[1] == 'incorrect':
-#             incorrect = 1
-#         elif item[1] == 'unattempted':
-#             unattempted = 1
-#         # list of score,correct,incorrect,unattempted
-#         if not str(item[3]) in topic_wise.keys():
-#             topic_wise[item[3]] = [float(item[2]), correct, incorrect, unattempted]
-#
-#         else:
-#             topic_wise[item[3]][0] = topic_wise[item[3]][0] + float(item[2])
-#             topic_wise[item[3]][1] = topic_wise[item[3]][1] + correct
-#             topic_wise[item[3]][2] = topic_wise[item[3]][2] + incorrect
-#             topic_wise[item[3]][3] = topic_wise[item[3]][3] + unattempted
-#
-#     # for k, v in topic_wise.items():
-#     #     print(k, v)
-#     # print(final_score)
-#     try:
-#         if not username == '':
-#             test_record(username, subject_name, topic_wise)
-#     except Exception as e:
-#         print(e)
-#     return render(request, 'app/score_result_full_test.html', {'topic_wise_details': topic_wise,
-#                                                                'score': final_score,
-#                                                                'username': username
-#                                                                })
+def full_test_result_calculator(request):
+    request_data = request.POST.copy()
+    data = dict(request_data.items())
+    if 'csrfmiddlewaretoken' in data.keys():
+        del data['csrfmiddlewaretoken']
+    data.pop('question')
+    data.pop('subject')
+    test_obj = TestRecord.objects.get(pk=data.pop('test_id'))
+    d = dict(data)
+    answer_list = []
+    for k, v in d.items():
+        answer_list.append((k, v))
+    result = calculator(answer_list, test_obj)
+    calculator(answer_list=None, test_obj=None)
+    return JsonResponse(result, safe=False)
 
 
 def user_analysis(request):
@@ -588,3 +526,44 @@ def verify_otp(request):
     username = request.GET.get('username')
     otp = request.GET.get('otp')
     return HttpResponse(otp_verification(username=username, otp=otp))
+
+
+def create_test_view(request):
+    """
+    returns random questions for a Practice session
+
+    :param request:
+    :return: HTML render
+    """
+    subject, topicname, test_type = None, None, None
+    data = dict(request.POST.items())
+    print(data)
+    if 'Subject' in data.keys():
+        subject = data['Subject']
+    if 'topicname' in data.keys():
+        topicname = data['topicname']
+    if 'test_type' in data.keys():
+        test_type = data['test_type']
+
+    del data['csrfmiddlewaretoken']
+    test_id, questions = create_test(data)
+    data = {'subject': subject, 'topic': topicname, 'test_id': test_id, 'questions': questions, 'test_type': test_type}
+    return render(request, 'app/show_test.html', data)
+
+
+def get_result(request):
+    data = dict(request.POST.items())
+    del data['csrfmiddlewaretoken']
+
+    test_type = data.pop('test_type')
+    test_id = data.pop('test_id')
+
+    result = check_result(data, test_type, test_id)
+    result['test_id'] = test_id
+    return JsonResponse(result)
+
+
+def get_test_details(request):
+    test_id = request.GET.get('test_id')
+    test_detail = test_details(test_id)
+    return JsonResponse(test_detail)

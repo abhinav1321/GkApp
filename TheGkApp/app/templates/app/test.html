@@ -55,10 +55,10 @@
 <div class="tab">
 <h5>{{forloop.counter}}. {{q.q_text}}</h5>
     <p>     </p>
-    <p> <input type="radio" name="{{q.q_id}}" value="a">  a.  {{q.a}}</input> </p>
-    <p> <input type="radio" name="{{q.q_id}}" value ="b">  b.  {{q.b}}</input> </p>
-    <p> <input type="radio"  name="{{q.q_id}}"  value = "c">  c.  {{q.c}}</input> </p>
-    <p>  <input type="radio" name="{{q.q_id}}" value = "d">  d.  {{q.d}}</input> </p>
+    <p> <input type="radio" name="{{q.id}}" value="a">  a.  {{q.a}}</input> </p>
+    <p> <input type="radio" name="{{q.id}}" value ="b">  b.  {{q.b}}</input> </p>
+    <p> <input type="radio"  name="{{q.id}}"  value = "c">  c.  {{q.c}}</input> </p>
+    <p>  <input type="radio" name="{{q.id}}" value = "d">  d.  {{q.d}}</input> </p>
     <p>
 </div>
 
@@ -73,8 +73,9 @@
   </div>
 </div>
 
-<input type="hidden" name="question" value="{{q_id}}">
+<input type="hidden" name="question" value="{{q.id}}">
 <input type =hidden name="subject" value="{{subject}}">
+<input type =hidden name="test_id" value="{{test_id}}">
 <!-- Circles which indicates the steps of the form: -->
 <div style="text-align:center;margin-top:40px;">
   {% for q in set %}

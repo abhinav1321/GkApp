@@ -50,7 +50,7 @@
   <div class="time">Time left = <span id="timer"></span></div>
 
 
-<form id="regForm" action="test_result" method="post">
+<form id="regForm" action="get_result" method="post">
 
 
 
@@ -79,8 +79,8 @@
   </div>
 </div>
 
-<input type="hidden" name="question" value="{{q.id}}">
-<input type="hidden" name="test_obj" value="{{test_obj}}">
+<input type="hidden" name="test_id" value="{{test_id}}">
+<input type="hidden" name="test_type" value="{{test_type}}">
 
 <!-- Circles which indicates the steps of the form: -->
 <div style="text-align:center;margin-top:40px;">

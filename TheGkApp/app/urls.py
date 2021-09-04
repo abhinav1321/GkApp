@@ -33,7 +33,7 @@ urlpatterns = [
     path('signIn', views.sign_in, name='signin'),
     path('sign_up', views.sign_up, name='sign_up'),
     path('full_test', views.full_test, name='full_test'),
-    # path('full_test_result_calculator', views.full_test_result_calculator, name='full_test_result_calculator'),
+    path('full_test_result_calculator', views.full_test_result_calculator, name='full_test_result_calculator'),
     path('user_analysis', views.user_analysis, name='user_analysis'),
     path('user_analysis_new', views.user_analysis_new, name='user_analysis'),
     path('user_profile', views.user_profile, name='user_profile'),
@@ -46,4 +46,9 @@ urlpatterns = [
     path('topic_details_user_analysis', views.get_topics_details_for_user_analysis, name='topic_details_user_analysis'),
     path('set_otp', views.set_otp, name='set_otp'),
     path('verify_otp', views.verify_otp, name='verify_otp'),
+    path('create_test_view', views.create_test_view, name='create_test_view'),
+    path('get_result', views.get_result, name='get_result'),
+    path('test_details', views.get_test_details, name='test_details'),
 ]
+
+

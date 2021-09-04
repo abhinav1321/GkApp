@@ -1,0 +1,9 @@
+
+
+
+<form method="POST" action = "/create_test_view">
+    {% csrf_token %}
+    <input  type="hidden" name="test_type" value="F">
+    <input type="hidden"  name="Subject"  value="English (Bank)">
+    <input type="submit" value="Submit">
+</form>
